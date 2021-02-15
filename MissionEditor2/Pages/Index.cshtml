@@ -14,57 +14,9 @@
 
 @section Scripts{
     <script>
+
         $(document).ready(function() {
-
-            // Register the node types
-            @foreach (NodeType nodeType in nodeService.GetNodeTypes())
-            {
-                @:
-                // node constructor class
-                @:function @(nodeType.Node.Name)Node()
-                @:{
-                // add inputs
-                @foreach (var input in nodeType.Inputs)
-                {
-                    if (input.Widget != null)
-                    {
-                        var widget = input.Widget;
-                        @:var name = "@widget.Name";
-                        @:var value = @widget.Value;
-                        @:var type = "@widget.WidgetAttribute.Type";
-                        @:this.addProperty(name, value);
-                        @:this.widget = this.addWidget(type, name, value, name);
-                    }
-                    @:this.addInput("@input.Name", "@input.Type");
-                }
-                // add outputs
-                @foreach (var output in nodeType.Outputs)
-                {
-                    if (output.Widget != null)
-                    {
-                        var widget = output.Widget;
-                        @:var name = "@widget.Name";
-                        @:var value = @widget.Value;
-                        @:var type = "@widget.WidgetAttribute.Type";
-                        @:this.addProperty(name, value);
-                        @:this.widget = this.addWidget(type, name, value, name);
-                    }
-                    @:this.addOutput("@output.Name", "@output.Type");
-                }
-
-                var size = nodeType.Node.Size;
-                if (size.HasValue)
-                {
-                    @:this.size = [@size.Value.X, @size.Value.Y];
-                }
-                @:this.title = "@nodeType.Node.Name";
-                @:this.onExecute = @nodeType.Node.OnExecute;
-                @:}
-
-
-                @:LiteGraph.registerNodeType("@nodeType.Node.Path", @(nodeType.Node.Name)Node);
-            }
-
+            
             var node_startup = LiteGraph.createNode("basic/startup");
             node_startup.pos = [200, 200];
             graph.add(node_startup);
@@ -73,16 +25,17 @@
             node_empty.pos = [700, 200];
             graph.add(node_empty);
 
-            var node_constant = LiteGraph.createNode("basic/constant");
-            node_constant.pos = [500, 300];
+            var node_constant = LiteGraph.createNode("basic/const");
+            node_constant.pos = [400, 300];
             graph.add(node_constant);
 
             var node_watch = LiteGraph.createNode("basic/watch");
-            node_watch.pos = [700, 300];
+            node_watch.pos = [700, 100];
             graph.add(node_watch);
 
             node_startup.connect(0, node_empty, 0);
             node_constant.connect(0, node_watch, 0);
         });
+
     </script>
 }
