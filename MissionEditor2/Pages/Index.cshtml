@@ -8,33 +8,28 @@
 @{
     ViewData["Title"] = "Home page";
 }
-<div class="editor-area">
-    <canvas id='mycanvas' class="lgraphcanvas" width='1024' height='720'></canvas>
+<div id="rete">
 </div>
 
 @section Scripts{
-    <script>
+    <script asp-append-version="true">
 
-        $(document).ready(function() {
+        $(document).ready(async function() {
+           
+            var n1 = await components[0].createNode({ num: 2 });
+            var n2 = await components[0].createNode({ num: 0 });
+            var add = await components[1].createNode();
+
+            n1.position = [80, 200];
+            n2.position = [80, 400];
+            add.position = [500, 240];
             
-            var node_startup = LiteGraph.createNode("basic/startup");
-            node_startup.pos = [200, 200];
-            graph.add(node_startup);
+            editor.addNode(n1);
+            editor.addNode(n2);
+            editor.addNode(add);
 
-            var node_empty = LiteGraph.createNode("basic/empty");
-            node_empty.pos = [700, 200];
-            graph.add(node_empty);
-
-            var node_constant = LiteGraph.createNode("basic/const");
-            node_constant.pos = [400, 300];
-            graph.add(node_constant);
-
-            var node_watch = LiteGraph.createNode("basic/watch");
-            node_watch.pos = [700, 100];
-            graph.add(node_watch);
-
-            node_startup.connect(0, node_empty, 0);
-            node_constant.connect(0, node_watch, 0);
+            editor.connect(n1.outputs.get('num'), add.inputs.get('num'));
+            editor.connect(n2.outputs.get('num'), add.inputs.get('num2')); 
         });
 
     </script>
