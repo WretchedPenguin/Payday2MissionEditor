@@ -5,7 +5,7 @@ VisualStudioVersion = 16.0.31005.135
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "MissionEditor2", "MissionEditor2\MissionEditor2.csproj", "{0B5017F6-DFF3-4AC6-91BA-9A61B4E1F4BB}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "vue", "Vue\vue.csproj", "{EA9AE7AA-3F2D-4E46-982F-D5A044A82CA3}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ReteEditor", "ReteEditor\ReteEditor.csproj", "{00689132-46C0-456C-8CF5-89D5B913210A}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -17,10 +17,10 @@ Global
 		{0B5017F6-DFF3-4AC6-91BA-9A61B4E1F4BB}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{0B5017F6-DFF3-4AC6-91BA-9A61B4E1F4BB}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{0B5017F6-DFF3-4AC6-91BA-9A61B4E1F4BB}.Release|Any CPU.Build.0 = Release|Any CPU
-		{EA9AE7AA-3F2D-4E46-982F-D5A044A82CA3}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{EA9AE7AA-3F2D-4E46-982F-D5A044A82CA3}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{EA9AE7AA-3F2D-4E46-982F-D5A044A82CA3}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{EA9AE7AA-3F2D-4E46-982F-D5A044A82CA3}.Release|Any CPU.Build.0 = Release|Any CPU
+		{00689132-46C0-456C-8CF5-89D5B913210A}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{00689132-46C0-456C-8CF5-89D5B913210A}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{00689132-46C0-456C-8CF5-89D5B913210A}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{00689132-46C0-456C-8CF5-89D5B913210A}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
