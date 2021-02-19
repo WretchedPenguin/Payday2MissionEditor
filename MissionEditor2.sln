@@ -5,8 +5,6 @@ VisualStudioVersion = 16.0.31005.135
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "MissionEditor2", "MissionEditor2\MissionEditor2.csproj", "{0B5017F6-DFF3-4AC6-91BA-9A61B4E1F4BB}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ReteEditor", "ReteEditor\ReteEditor.csproj", "{00689132-46C0-456C-8CF5-89D5B913210A}"
-EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU

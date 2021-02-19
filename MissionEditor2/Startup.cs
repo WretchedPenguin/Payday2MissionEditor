@@ -6,12 +6,14 @@ using System.Threading.Tasks;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.HttpsPolicy;
+using Microsoft.AspNetCore.SpaServices;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using MissionEditor2.Domain.Nodes;
 using MissionEditor2.Extensions;
 using MissionEditor2.Services;
+using VueCliMiddleware;
 
 namespace MissionEditor2
 {
@@ -30,7 +32,9 @@ namespace MissionEditor2
             services.AddRazorPages();
 
             services.AddSingleton<NodeService>();
-            services.RegisterAllTypes<Node>(new[] { typeof(Startup).Assembly });
+            services.RegisterAllTypes<Node>(new[] {typeof(Startup).Assembly});
+
+            services.AddSpaStaticFiles(opt => opt.RootPath = "ClientApp/dist");
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -47,14 +51,23 @@ namespace MissionEditor2
                 app.UseHsts();
             }
 
-            app.UseHttpsRedirection();
             app.UseStaticFiles();
+            app.UseSpaStaticFiles();
 
             app.UseRouting();
 
             app.UseAuthorization();
 
-            app.UseEndpoints(endpoints => { endpoints.MapRazorPages(); });
+            app.UseEndpoints(endpoints =>
+            {
+                endpoints.MapRazorPages();
+                endpoints.MapToVueCliProxy("{*path}",
+                    new SpaOptions {SourcePath = "client"},
+                    npmScript: "watch",
+                    regex: "Compiled successfully",
+                    forceKill: true
+                );
+            });
         }
     }
 }
