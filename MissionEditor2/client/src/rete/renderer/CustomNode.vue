@@ -1,7 +1,8 @@
 ﻿<template lang="pug">
   .node(:class="[selected(), node.name] | kebab")
-    .title-container(:style="node.titleStyle")
-      .title.text-uppercase.text-center {{node.name}}
+    .title-container
+      img.img-fluid.icon.m-1(:src="'assets/icons/' + (node.icon ? node.icon : 'script') + '.svg'")
+      .title.text-uppercase.text-center.ml-auto.mr-auto {{node.name}}
 
     // Controls
     .control(
@@ -13,17 +14,19 @@
     .input(v-for='input in inputs()' :key="input.key")
       Socket(v-socket:input="input", type="input", :socket="input.socket")
       .input-title(v-if='!input.control') {{input.name}}
-      .input-control.ml-3.mr-3(
+      .input-control(
         v-if='input.control'
         v-control="input.control"
+        :class="input.socket.name"
       )
 
     // Outputs
     .output(v-for='output in outputs()' :key="output.key")
       .output-title(v-if="!output.control")  {{output.name}}
-      .output-control.ml-2(
+      .output-control.ml-1(
         v-if="output.control"
         v-control="output.control"
+        :class="output.socket.name"
       )
       Socket(v-socket:output="output", type="output", :socket="output.socket")
 </template>
@@ -40,7 +43,7 @@ export default {
 }
 </script>
 
-<style lang="sass" scoped>
+<style lang="sass">
 @import "../vars"
 .node
   background: $node-color
@@ -59,24 +62,30 @@ export default {
   .title-container
     border-top-left-radius: 10px
     border-top-right-radius: 10px
-    margin-bottom: 8px
-    
+    margin-bottom: $line-margin
+    background-color: $node-color
+    display: flex
+
+    .icon
+      height: 40px
+
   .title
     color: white
     font-family: sans-serif
     font-size: 24px
     padding: 8px
+    font-weight: bold
 
   .output,
   .input
     display: flex
-    padding-bottom: 8px
+    padding-bottom: $line-margin
     align-items: center
-    
+
   .output
     text-align: right
     justify-content: flex-end
-    
+
   .input
     text-align: left
     justify-content: flex-start
@@ -87,16 +96,42 @@ export default {
     display: inline-block
     font-family: sans-serif
     font-size: 14px
-    margin: $socket-margin
     line-height: $socket-size
 
   .input-control
     z-index: 1
     width: calc(100% - #{$socket-size + 2*$socket-margin})
-    vertical-align: middle
     display: inline-block
 
-  .control
-    padding: $socket-margin $socket-size/2 + $socket-margin
-    padding-top: 0px
+  .control,
+  .input-control,
+  .output-control
+    width: 100%
+
+  &.constant,
+  &.unit-ref
+    .title-container
+      background-color: #548235
+
+  &.script,
+  &.timer,
+  &.timer-trigger,
+  &.timer-set
+    .title-container
+      background-color: #A9D18E
+
+  &.startup,
+  &.asset
+    .title-container
+      background-color: #9DC3E6
+
+  &.toggle
+    .title-container
+      background-color: $socket-color-toggle
+
+  &.disabled
+    .title-container
+      background-color: #A6A6A6
+
+
 </style>

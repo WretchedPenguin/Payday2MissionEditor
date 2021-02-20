@@ -1,5 +1,6 @@
 ﻿import Rete from "rete";
 import sockets from "../sockets";
+import NextElementsOutput from "@/rete/io/outputs/NextElementsOutput";
 
 export default class StartupComponent extends Rete.Component {
 
@@ -8,9 +9,9 @@ export default class StartupComponent extends Rete.Component {
     }
 
     builder(node) {
-        let out1 = new Rete.Output('startup', "On startup", sockets.elementSocket);
-
-        node.titleStyle = "background-color: #9DC3E6";
+        let out1 = new NextElementsOutput('On startup');
+        
+        node.icon = 'play-button-arrow';
         
         node.addOutput(out1);
     }

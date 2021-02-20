@@ -1,28 +1,27 @@
 ﻿import Rete from "rete";
 import sockets from "../sockets";
-import FieldControl from "../controls/FieldControl";
 import FieldOutput from "@/rete/io/outputs/FieldOutput";
 
-export default class NumComponent extends Rete.Component {
+export default class UnitRefComponent extends Rete.Component {
 
     constructor() {
-        super("Constant");
+        super("Unit Ref");
     }
 
     builder(node) {
-        let num = new FieldOutput('num', sockets.number, {
+        let num = new FieldOutput('unit', sockets.unit, {
             emitter: this.editor,
             type: 'number',
-            name: 'Value',
+            name: 'Unit ID',
             inputLength: 9
         });
         
-        node.icon = 'equal';
-
+        node.icon = 'object'
+        
         node.addControl(num.field).addOutput(num);
     }
 
     worker(node, inputs, outputs) {
-        outputs['num'] = node.data.num;
+        outputs['unit'] = node.data.unit;
     }
 }

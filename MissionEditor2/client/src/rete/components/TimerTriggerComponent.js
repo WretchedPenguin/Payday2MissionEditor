@@ -9,33 +9,32 @@ import FieldControl from "@/rete/controls/FieldControl";
 import GroupInput from "@/rete/io/inputs/GroupInput";
 import ToggleInput from "@/rete/io/inputs/ToggleInput";
 
-export default class ScriptComponent extends Rete.Component {
+export default class TimerTriggerComponent extends Rete.Component {
 
     constructor() {
-        super("Script");
+        super("Timer trigger");
     }
 
     builder(node) {
         let name = new NameControl(this.editor);
-        let previousElements = new PreviousElementsInput();
-        let nextElements = new NextElementsOutput();
+        
+        let time = new Rete.Input('time', 'Time to check', sockets.time);
 
-        let delay = new FieldInput('delay', sockets.number, {
+        let equalTo = new FieldInput('equalTo', sockets.number, {
             emitter: this.editor,
-            name: "Delay",
-            append: 's',
-            type: 'number'
+            name: "Is equal to?",
+            type: 'number',
+            append: 's'
         });
+        
+        let nextElements = new NextElementsOutput()
 
-        let toggleInput = new ToggleInput(this.editor);
-        
-        node.icon = 'script';
-        
+        node.icon = 'stopwatch';
+
         node
             .addControl(name)
-            .addInput(previousElements)
-            .addInput(delay)
-            .addInput(toggleInput)
+            .addInput(time)
+            .addInput(equalTo)
             .addOutput(nextElements);
     }
 
@@ -43,8 +42,8 @@ export default class ScriptComponent extends Rete.Component {
         var node = this.editor.nodes.find(n => n.id === nodeData.id);
 
         if (node) {
-            node.inputs.get('delay').update(nodeData, inputs);
-            node.inputs.get('toggle').update(nodeData, node, inputs, outputs);
+            node.inputs.get('time').update(nodeData, inputs);
+            node.inputs.get('equalTo').update(nodeData, inputs);
         }
     }
 }

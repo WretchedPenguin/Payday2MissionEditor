@@ -8,43 +8,45 @@ import FieldInput from "@/rete/io/inputs/FieldInput";
 import FieldControl from "@/rete/controls/FieldControl";
 import GroupInput from "@/rete/io/inputs/GroupInput";
 import ToggleInput from "@/rete/io/inputs/ToggleInput";
+import FieldOutput from "@/rete/io/outputs/FieldOutput";
 
-export default class ScriptComponent extends Rete.Component {
+export default class TimerComponent extends Rete.Component {
 
     constructor() {
-        super("Script");
+        super("Timer");
     }
 
     builder(node) {
         let name = new NameControl(this.editor);
-        let previousElements = new PreviousElementsInput();
-        let nextElements = new NextElementsOutput();
 
-        let delay = new FieldInput('delay', sockets.number, {
+        let unit = new FieldInput('unit', sockets.unit, {
             emitter: this.editor,
-            name: "Delay",
+            name: "Timer unit",
+            type: 'number'
+        });
+        
+        let time = new FieldOutput('time', sockets.time, {
+            emitter: this.editor,
+            name: "Time (default)",
             append: 's',
             type: 'number'
         });
 
-        let toggleInput = new ToggleInput(this.editor);
-        
-        node.icon = 'script';
-        
+        node.icon = 'stopwatch';
+
         node
             .addControl(name)
-            .addInput(previousElements)
-            .addInput(delay)
-            .addInput(toggleInput)
-            .addOutput(nextElements);
+            .addInput(unit)
+            .addOutput(time)
+            .addControl(time.field);
     }
 
     worker(nodeData, inputs, outputs) {
         var node = this.editor.nodes.find(n => n.id === nodeData.id);
 
         if (node) {
-            node.inputs.get('delay').update(nodeData, inputs);
-            node.inputs.get('toggle').update(nodeData, node, inputs, outputs);
+            node.inputs.get('unit').update(nodeData, inputs);
+            node.inputs.get('time').update(nodeData, inputs);
         }
     }
 }

@@ -44,4 +44,15 @@ export default {
   &.number
     background: $socket-color-number
     border-radius: 0px
+
+  &.toggle
+    background: $socket-color-toggle
+    
+  &.time
+    background: $socket-color-time
+
+.node.disabled
+  .socket
+    background: $socket-color-disabled
+
 </style>
