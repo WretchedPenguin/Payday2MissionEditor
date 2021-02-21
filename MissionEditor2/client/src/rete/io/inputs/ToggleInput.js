@@ -26,9 +26,9 @@ export default class ToggleInput extends GroupInput {
         this.control.setChildValue(1, inputs['toggle']);        
         this.control.setChildReadonly(1, true);        
         if (nodeData.data.enabled) {
-            node.vueContext.$el.classList.remove("disabled");
+            node.vueContext.$el.firstChild.classList.remove("disabled");
         } else {
-            node.vueContext.$el.classList.add("disabled");
+            node.vueContext.$el.firstChild.classList.add("disabled");
         }
     }
 }

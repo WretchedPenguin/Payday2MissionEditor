@@ -14,6 +14,7 @@ export default class TimerComponent extends Rete.Component {
 
     constructor() {
         super("Timer");
+        this.path = ['Timer'];
     }
 
     builder(node) {
@@ -46,7 +47,7 @@ export default class TimerComponent extends Rete.Component {
 
         if (node) {
             node.inputs.get('unit').update(nodeData, inputs);
-            node.inputs.get('time').update(nodeData, inputs);
+            // node.inputs.get('time').update(nodeData, inputs);
         }
     }
 }

@@ -6,6 +6,7 @@ export default class StartupComponent extends Rete.Component {
 
     constructor() {
         super("Startup");
+        this.path = ['Control'];
     }
 
     builder(node) {

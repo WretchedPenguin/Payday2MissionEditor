@@ -13,6 +13,7 @@ export default class ScriptComponent extends Rete.Component {
 
     constructor() {
         super("Script");
+        this.path = ['Control'];
     }
 
     builder(node) {
@@ -24,7 +25,8 @@ export default class ScriptComponent extends Rete.Component {
             emitter: this.editor,
             name: "Delay",
             append: 's',
-            type: 'number'
+            type: 'number',
+            initial: 10
         });
 
         let toggleInput = new ToggleInput(this.editor);

@@ -8,6 +8,7 @@ export default class AssetComponent extends Rete.Component {
 
     constructor() {
         super("Asset");
+        this.path = ["Constants"];
     }
 
     builder(node) {

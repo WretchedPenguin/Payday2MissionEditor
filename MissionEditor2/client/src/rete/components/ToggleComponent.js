@@ -7,6 +7,7 @@ export default class ToggleComponent extends Rete.Component {
 
     constructor() {
         super("Toggle");
+        this.path = ['Control'];
     }
 
     builder(node) {

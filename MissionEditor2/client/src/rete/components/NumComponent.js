@@ -6,7 +6,8 @@ import FieldOutput from "@/rete/io/outputs/FieldOutput";
 export default class NumComponent extends Rete.Component {
 
     constructor() {
-        super("Constant");
+        super("Number");
+        this.path = ['Constants'];
     }
 
     builder(node) {

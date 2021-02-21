@@ -1,34 +1,35 @@
 ﻿<template lang="pug">
   .node(:class="[selected(), node.name] | kebab")
-    .title-container
-      img.img-fluid.icon.m-1(:src="'assets/icons/' + (node.icon ? node.icon : 'script') + '.svg'")
-      .title.text-uppercase.text-center.ml-auto.mr-auto {{node.name}}
-
-    // Controls
-    .control(
-      v-if="control.visible"
-      v-for='control in controls()',
-      v-control="control"
-    )
-    // Inputs
-    .input(v-for='input in inputs()' :key="input.key")
-      Socket(v-socket:input="input", type="input", :socket="input.socket")
-      .input-title(v-if='!input.control') {{input.name}}
-      .input-control(
-        v-if='input.control'
-        v-control="input.control"
-        :class="input.socket.name"
+    div
+      .title-container
+        img.img-fluid.icon.m-1(:src="'assets/icons/' + (node.icon ? node.icon : 'script') + '.svg'")
+        .title.text-uppercase.text-center.ml-auto.mr-auto {{node.name}}
+  
+      // Controls
+      .control(
+        v-if="control.visible"
+        v-for='control in controls()',
+        v-control="control"
       )
-
-    // Outputs
-    .output(v-for='output in outputs()' :key="output.key")
-      .output-title(v-if="!output.control")  {{output.name}}
-      .output-control.ml-1(
-        v-if="output.control"
-        v-control="output.control"
-        :class="output.socket.name"
-      )
-      Socket(v-socket:output="output", type="output", :socket="output.socket")
+      // Inputs
+      .input(v-for='input in inputs()' :key="input.key")
+        Socket(v-socket:input="input", type="input", :socket="input.socket")
+        .input-title(v-if='!input.control') {{input.name}}
+        .input-control(
+          v-if='input.control'
+          v-control="input.control"
+          :class="input.socket.name"
+        )
+  
+      // Outputs
+      .output(v-for='output in outputs()' :key="output.key")
+        .output-title(v-if="!output.control")  {{output.name}}
+        .output-control.ml-1(
+          v-if="output.control"
+          v-control="output.control"
+          :class="output.socket.name"
+        )
+        Socket(v-socket:output="output", type="output", :socket="output.socket")
 </template>
 
 <script>
@@ -70,18 +71,22 @@ export default {
       height: 40px
 
   .title
-    color: white
+    color: $title-text-color
     font-family: sans-serif
-    font-size: 24px
+    font-size: $title-size
     padding: 8px
     font-weight: bold
 
   .output,
   .input
     display: flex
-    padding-bottom: $line-margin
     align-items: center
 
+  .output,
+  .input,
+  .control
+    padding-bottom: $line-margin
+    
   .output
     text-align: right
     justify-content: flex-end
@@ -90,7 +95,8 @@ export default {
     text-align: left
     justify-content: flex-start
 
-  .input-title, .output-title
+  .input-title, 
+  .output-title
     vertical-align: middle
     color: $text-color
     display: inline-block
@@ -109,6 +115,7 @@ export default {
     width: 100%
 
   &.constant,
+  &.number,
   &.unit-ref
     .title-container
       background-color: #548235
@@ -121,7 +128,8 @@ export default {
       background-color: #A9D18E
 
   &.startup,
-  &.asset
+  &.asset,
+  &.group
     .title-container
       background-color: #9DC3E6
 
@@ -129,9 +137,11 @@ export default {
     .title-container
       background-color: $socket-color-toggle
 
-  &.disabled
+  &>.disabled
     .title-container
-      background-color: #A6A6A6
+      background-color: $node-color-disabled
+    .socket
+      background: $socket-color-disabled
 
 
 </style>

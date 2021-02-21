@@ -23,10 +23,10 @@
 
 <script>
 export default {
-  props: ['readonly', 'emitter', 'ikey', 'type', 'getData', 'putData', 'name', 'prepend', 'append', 'inputLength', 'placeholder'],
+  props: ['initial', 'readonly', 'emitter', 'ikey', 'type', 'getData', 'putData', 'name', 'prepend', 'append', 'inputLength', 'placeholder', 'change'],
   data() {
     return {
-      value: '',
+      value: this.initial,
       read_only: this.readonly
     }
   },
@@ -45,11 +45,17 @@ export default {
     update() {
       if (this.ikey) {
         this.putData(this.ikey, this.value);
+        if(this.change)
+          this.change(this.value);
       }
       this.emitter.trigger('process');
     }
   },
-  mounted() {    
+  mounted() {
+    if(!this.getData(this.ikey)){
+      this.putData(this.ikey, this.initial);
+    }
+    
     this.value = this.getData(this.ikey);
   }
 }

@@ -6,6 +6,7 @@ export default class UnitRefComponent extends Rete.Component {
 
     constructor() {
         super("Unit Ref");
+        this.path = ['Constants'];
     }
 
     builder(node) {

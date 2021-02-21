@@ -41,7 +41,8 @@ export default {
     margin-left: - $socket-size / 2
     margin-right: $socket-margin
 
-  &.number
+  &.number,
+  &.unit
     background: $socket-color-number
     border-radius: 0px
 
@@ -50,9 +51,5 @@ export default {
     
   &.time
     background: $socket-color-time
-
-.node.disabled
-  .socket
-    background: $socket-color-disabled
 
 </style>

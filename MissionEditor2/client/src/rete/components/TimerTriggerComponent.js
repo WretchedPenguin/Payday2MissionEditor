@@ -13,6 +13,7 @@ export default class TimerTriggerComponent extends Rete.Component {
 
     constructor() {
         super("Timer trigger");
+        this.path = ['Timer'];
     }
 
     builder(node) {
@@ -39,11 +40,11 @@ export default class TimerTriggerComponent extends Rete.Component {
     }
 
     worker(nodeData, inputs, outputs) {
-        var node = this.editor.nodes.find(n => n.id === nodeData.id);
-
-        if (node) {
-            node.inputs.get('time').update(nodeData, inputs);
-            node.inputs.get('equalTo').update(nodeData, inputs);
-        }
+        // var node = this.editor.nodes.find(n => n.id === nodeData.id);
+        //
+        // if (node) {
+        //     node.inputs.get('time').update(nodeData, inputs);
+        //     node.inputs.get('equalTo').update(nodeData, inputs);
+        // }
     }
 }
