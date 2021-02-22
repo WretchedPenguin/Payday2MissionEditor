@@ -17,7 +17,7 @@ export default class InputComponent extends Rete.Component {
             nodeType: 'input',
             socket: socket
         }
-        this.path = ['Groups'];
+        this.path = ['Groups', 'Inputs'];
     }
 
     builder(node) {
@@ -35,10 +35,6 @@ export default class InputComponent extends Rete.Component {
             .addOutput(out);
     }
 
-    worker(node, inputs, outputs) {
-        console.log(node);
-        console.log(inputs);
-        console.log(outputs);
-        outputs['output'] = node.data.output; 
+    worker(nodeData, inputs, outputs) {
     }
 }

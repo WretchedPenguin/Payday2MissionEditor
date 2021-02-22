@@ -28,6 +28,8 @@ import {ModuleComponent} from "@/rete/components/modules/ModuleComponent";
 import GroupList from "@/components/GroupList";
 import InputComponent from "@/rete/components/modules/InputComponent";
 import sockets from "@/rete/sockets";
+import OutputComponent from "@/rete/components/modules/OutputComponent";
+import PrototypeData from "@/data/prototype.json"
 
 export default {
   name: 'App',
@@ -61,6 +63,10 @@ export default {
       module: new ModuleComponent(),
       inputElement: new InputComponent('Input element', 'Previous elements', sockets.element),
       inputNumber: new InputComponent('Input number', 'Number', sockets.number),
+      inputUnitRef: new InputComponent('Input unit ref', 'Unit ref', sockets.unit),
+      outputElement: new OutputComponent('Output element', 'Next elements', sockets.element),
+      outputNumber: new OutputComponent('Output number', 'Number', sockets.number),
+      outputUnitRef: new OutputComponent('Output unit ref', 'Unit ref', sockets.unit),
     };
 
 
@@ -70,14 +76,53 @@ export default {
     const background = document.createElement('div');
     background.classList = 'background';
 
-
     var engine = new Rete.Engine('demo@0.1.0');
 
     this.modules = {
-      "global": {data: {id: 'demo@0.1.0', nodes: {}}},
-      "Other logic": {data: {id: 'demo@0.1.0', nodes: {}}}
+      "Global": {data: {id: 'demo@0.1.0', nodes: {}}},
+      "Other logic": {
+        data: {
+          id: 'demo@0.1.0', nodes: {
+            "1": {
+              "id": 1,
+              "data": {
+                "name": "Previous elements"
+              },
+              "inputs": {},
+              "outputs": {
+                "output": {
+                  "connections": [{
+                    "node": 2,
+                    "input": "input",
+                    "data": {}
+                  }]
+                }
+              },
+              "position": [348, 78],
+              "name": "Input element"
+            }, "2": {
+              "id": 2,
+              "data": {
+                "name": "Next elements"
+              },
+              "inputs": {
+                "input": {
+                  "connections": [{
+                    "node": 1,
+                    "output": "output",
+                    "data": {}
+                  }]
+                }
+              },
+              "outputs": {},
+              "position": [1086, 202],
+              "name": "Output element"
+            }
+          },
+        }
+      }
     };
-
+    
     editor.use(ModulePlugin, {
       engine,
       modules: this.modules
@@ -103,6 +148,7 @@ export default {
     await Prototype.addNodes(editor, components);
 
     editor.on("process nodecreated noderemoved connectioncreated connectionremoved", async () => {
+      console.log(JSON.stringify(this.modules));
       await engine.abort();
       await engine.process(editor.toJSON());
     });

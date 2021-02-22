@@ -7,7 +7,6 @@ export default class ControlInput extends Rete.Input{
         super(key, options.name, socket, multiConn);
 
         let field = new control(key, options);
-        console.log('initial ' + options.initial)
         this.addControl(field);
     }
 

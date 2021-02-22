@@ -50,6 +50,7 @@
         editor.connect(constant.outputs.get('num'), chopperEscape.inputs.get('delay'));
         editor.connect(startup.outputs.get('next_elements'), vanEscape.inputs.get('previous_elements'));
         editor.connect(startup.outputs.get('next_elements'), chopperEscape.inputs.get('previous_elements'));
+        editor.connect(startup.outputs.get('next_elements'), group.inputs.get('Previous elements'));
         // editor.connect(vanEscape.outputs.get('next_elements'), rest.inputs.get('previous_elements'));
 
         editor.connect(asset.outputs.get('next_elements'), enableChopperEscape.inputs.get('previous_elements'));

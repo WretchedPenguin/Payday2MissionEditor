@@ -10,13 +10,15 @@ export default class ToggleInput extends GroupInput {
                 {
                     name: "Enabled",
                     type: 'checkbox',
-                    ikey: 'enabled'
+                    ikey: 'enabled',
+                    initial: true
                 },
                 {
                     name: "Trigger count",
                     type: "number",
                     append: "x",
-                    ikey: 'triggerCount'
+                    ikey: 'triggerCount',
+                    initial: -1
                 }
             ]
         });

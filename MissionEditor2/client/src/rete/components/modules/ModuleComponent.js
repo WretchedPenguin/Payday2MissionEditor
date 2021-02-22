@@ -28,4 +28,7 @@ export class ModuleComponent extends Component {
         node.data.module = item;
         this.editor.trigger('process');
     }
+    
+    worker(node, inputs, outputs, ...args) {
+    }
 }
