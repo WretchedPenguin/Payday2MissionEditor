@@ -1,6 +1,7 @@
 ﻿<template>
   <div class="field-group">
-    <VueFieldControl v-for="(field, index) in controls" :class="index !== Object.keys(controls).length - 1 ? 'line' : '' "
+    <VueFieldControl v-for="(field, index) in controls"
+                     :class="index !== Object.keys(controls).length - 1 ? 'line' : '' "
                      :readonly="field.readonly"
                      :emitter="emitter"
                      :ikey="field.ikey"
@@ -9,7 +10,8 @@
                      :put-data="putData"
                      :name="field.name"
                      :prepend="field.prepend"
-                     :append="field.append">
+                     :append="field.append"
+                     :initial="field.initial">
     </VueFieldControl>
   </div>
 </template>

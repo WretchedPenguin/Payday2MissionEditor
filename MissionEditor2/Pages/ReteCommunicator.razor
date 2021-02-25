@@ -1,0 +1,44 @@
+@using MissionEditor2.Services
+@using MissionEditor2.Domain
+@using Microsoft.Extensions.Logging
+@inject IJSRuntime JsRuntime
+@inject ElementService ElementService
+@implements IDisposable
+@inject ILogger<ReteCommunicator> Logger
+
+@* this class contains no html and is only used to communicate with javascript when elements are changed *@
+
+@code {
+
+    protected override void OnInitialized()
+    {
+        ElementService.OnElementCreated += OnElementCreated;
+    }
+
+    public void Dispose()
+    {
+        ElementService.OnElementCreated -= OnElementCreated;
+    }
+
+    private async Task OnElementCreated(Element element)
+    {
+        element.Class = ConvertTypeToRete(element);
+        string result = await JsRuntime.InvokeAsync<string>("app.createNode", element);
+        if (result != null)
+        {
+            Logger.LogInformation(result);
+        }
+    }
+
+    private string ConvertTypeToRete(Element element)
+    {
+        string type = element.Class;
+        if (element.Class == "MissionScriptElement" && element.Values.TryGetValue("execute_on_startup", out string eos))
+        {
+            if (eos == "true")
+                type = "startup";
+        }
+        return type;
+    }
+
+}

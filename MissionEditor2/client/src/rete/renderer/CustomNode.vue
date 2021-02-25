@@ -57,7 +57,8 @@ export default {
   position: relative
   user-select: none
 
-  &:hover
+  &:hover,
+  &.selected
     background: lighten($node-color, 4%)
 
   .title-container

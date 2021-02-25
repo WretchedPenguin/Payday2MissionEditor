@@ -114,12 +114,12 @@ export default {
       font-size: $title-size
 
       &:hover
-        background-color: $node-color-disabled + rgb(10,10,10)
+        background-color: lighten($node-color-disabled, 4%)
         color: $title-text-color
 
     &:hover
-      background-color: $node-color + rgb(10,10,10)
-      color: $socket-color-disabled + rgb(10,10,10)
+      background-color: lighten($node-color, 4%)
+      color: lighten($socket-color-disabled, 4%)
 
     .icon
       height: 20px

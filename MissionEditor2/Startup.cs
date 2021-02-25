@@ -1,17 +1,9 @@
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Reflection;
-using System.Threading.Tasks;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
-using Microsoft.AspNetCore.HttpsPolicy;
 using Microsoft.AspNetCore.SpaServices;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
-using MissionEditor2.Domain.Nodes;
-using MissionEditor2.Extensions;
 using MissionEditor2.Services;
 using VueCliMiddleware;
 
@@ -30,9 +22,10 @@ namespace MissionEditor2
         public void ConfigureServices(IServiceCollection services)
         {
             services.AddRazorPages();
+            services.AddControllers();
+            services.AddServerSideBlazor();
 
-            services.AddSingleton<NodeService>();
-            services.RegisterAllTypes<Node>(new[] {typeof(Startup).Assembly});
+            services.AddSingleton<ElementService>();
 
             services.AddSpaStaticFiles(opt => opt.RootPath = "ClientApp/dist");
         }
@@ -53,6 +46,7 @@ namespace MissionEditor2
 
             app.UseStaticFiles();
             app.UseSpaStaticFiles();
+            
 
             app.UseRouting();
 
@@ -61,12 +55,14 @@ namespace MissionEditor2
             app.UseEndpoints(endpoints =>
             {
                 endpoints.MapRazorPages();
+                endpoints.MapControllers();
                 endpoints.MapToVueCliProxy("{*path}",
                     new SpaOptions {SourcePath = "client"},
                     npmScript: "watch",
                     regex: "Compiled successfully",
                     forceKill: true
                 );
+                endpoints.MapBlazorHub();
             });
         }
     }

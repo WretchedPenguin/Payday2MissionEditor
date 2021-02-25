@@ -13,9 +13,9 @@ export default class ControlInput extends Rete.Input{
     update(nodeData, inputs, key){
         key = key ? key : this.key;
         var hasInput = !!inputs[key].length;
-        var name = hasInput ? inputs[key][0] : nodeData.data[key];
+        var input = hasInput ? inputs[key][0] : nodeData.data[key];
         
-        this.control.setValue(name);
+        this.control.setValue(input);
         this.control.setReadonly(hasInput);
     }
 

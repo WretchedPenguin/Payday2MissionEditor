@@ -4,21 +4,21 @@
 
         var constant = await components['constant'].createNode({num: 3});
         var startup = await components['startup'].createNode();
-        var vanEscape = await components['script'].createNode({name: "Van escape", enabled: true, delay: 5});
-        var chopperEscape = await components['script'].createNode({name: "Chopper escape", enabled: false});
+        var vanEscape = await components['MissionScriptElement'].createNode({editorName: "Van escape", enabled: true, delay: 5});
+        var chopperEscape = await components['MissionScriptElement'].createNode({editorName: "Chopper escape", enabled: false});
         var asset = await components['asset'].createNode({asset: "q_chopper_escape"});
         var enableChopperEscape = await components['toggle'].createNode({
-            name: "Enable chopper escape",
+            editorName: "Enable chopper escape",
             enabled: true,
             triggerCount: 1
         });
         var unitRef = await components['unitRef'].createNode({unit: 100523});
         var timer = await components['timer'].createNode({time: 120});
-        var timerTrigger = await components['timerTrigger'].createNode({equalTo: 0, name: "On escape arrive"});
-        var timerSet = await components['timerSet'].createNode({value: 180, name: "Set chopper delay"});
+        var timerTrigger = await components['timerTrigger'].createNode({equalTo: 0, editorName: "On escape arrive"});
+        var timerSet = await components['timerSet'].createNode({value: 180, editorName: "Set chopper delay"});
         var group = await components['module'].createNode({module: 'Other logic'});
 
-        var rest = await components['script'].createNode({name: "Rest of the heist", enabled: true, delay: 0});
+        var rest = await components['MissionScriptElement'].createNode({editorName: "Rest of the heist", enabled: true, delay: 0});
 
         constant.position = [500, 400];
         startup.position = [80, 200];

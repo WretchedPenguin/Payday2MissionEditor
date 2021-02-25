@@ -12,6 +12,7 @@ import ConnectionPlugin from "rete-connection-plugin";
 import VueRenderPlugin from "rete-vue-render-plugin";
 import ModulePlugin from "rete-module-plugin";
 import ContextMenuPlugin from "rete-context-menu-plugin";
+import AutoArrangePlugin from 'rete-auto-arrange-plugin';
 import NumComponent from "./rete/components/NumComponent";
 import CustomNode from "@/rete/renderer/CustomNode";
 import StartupComponent from "./rete/components/StartupComponent";
@@ -23,13 +24,11 @@ import UnitRefComponent from "@/rete/components/UnitRefComponent";
 import TimerComponent from "@/rete/components/TimerComponent";
 import TimerTriggerComponent from "@/rete/components/TimerTriggerComponent";
 import TimerSetComponent from "@/rete/components/TimerSetComponent";
-import Prototype from "@/Prototype";
 import {ModuleComponent} from "@/rete/components/modules/ModuleComponent";
 import GroupList from "@/components/GroupList";
 import InputComponent from "@/rete/components/modules/InputComponent";
 import sockets from "@/rete/sockets";
 import OutputComponent from "@/rete/components/modules/OutputComponent";
-import PrototypeData from "@/data/prototype.json"
 
 export default {
   name: 'App',
@@ -37,23 +36,33 @@ export default {
   data() {
     return {
       editor: {},
-      modules: {}
+      modules: {},
+      components: {}
     }
   },
   methods: {
     resize() {
       this.editor.view.resize();
       AreaPlugin.zoomAt(this.editor);
+    },
+    async createNode(element) {
+      var node = await this.components[element.class].createNode(element);
+      node.position = [0, 0];
+      this.editor.addNode(node);
     }
   },
   async mounted() {
+    window.app = this;
     let container = document.getElementById("rete");
     container.classList.add('custom-node-editor');
+
+    this.editor = new Rete.NodeEditor('demo@0.1.0', container);
+    let editor = this.editor;
 
     let components = {
       constant: new NumComponent(),
       startup: new StartupComponent(),
-      script: new ScriptComponent(),
+      MissionScriptElement: new ScriptComponent(),
       asset: new AssetComponent(),
       toggle: new ToggleComponent(),
       unitRef: new UnitRefComponent(),
@@ -68,10 +77,8 @@ export default {
       outputNumber: new OutputComponent('Output number', 'Number', sockets.number),
       outputUnitRef: new OutputComponent('Output unit ref', 'Unit ref', sockets.unit),
     };
+    this.components = components;
 
-
-    this.editor = new Rete.NodeEditor('demo@0.1.0', container);
-    let editor = this.editor;
 
     const background = document.createElement('div');
     background.classList = 'background';
@@ -122,7 +129,7 @@ export default {
         }
       }
     };
-    
+
     editor.use(ModulePlugin, {
       engine,
       modules: this.modules
@@ -138,6 +145,7 @@ export default {
         return component.path || ['Other'];
       }
     });
+    editor.use(AutoArrangePlugin, {margin: {x: 50, y: 50}, depth: 0});
 
     for (var k in components) {
       var v = components[k];
@@ -145,13 +153,11 @@ export default {
       engine.register(v);
     }
 
-    await Prototype.addNodes(editor, components);
-
     editor.on("process nodecreated noderemoved connectioncreated connectionremoved", async () => {
-      console.log(JSON.stringify(this.modules));
       await engine.abort();
       await engine.process(editor.toJSON());
     });
+
     let lastClass;
     editor.on("connectionpick", io => {
       let el = $('#rete > div > div:first-child');
@@ -161,6 +167,7 @@ export default {
     });
 
     this.resize();
+    console.log(editor)
     editor.trigger('process');
   }
 }

@@ -3,9 +3,16 @@
 @{
     ViewData["Title"] = "Home page";
 }
+<component type="typeof(ReteCommunicator)" render-mode="Server"/>
 <div id="app"></div>
+
 
 @section Scripts{
     <script src="~/app/js/chunk-vendors.js"></script>
     <script src="~/app/js/index.js"></script>
+    <script>
+            Blazor.defaultReconnectionHandler._reconnectCallback = function (d) {
+                document.location.reload();
+            }
+    </script>
 }
