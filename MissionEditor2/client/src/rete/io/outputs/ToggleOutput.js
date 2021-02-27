@@ -13,10 +13,10 @@ export default class ToggleOutput extends GroupOutput {
                     ikey: 'enabled'
                 },
                 {
-                    name: "Trigger count",
+                    name: "Trigger times",
                     type: "number",
                     append: "x",
-                    ikey: 'triggerCount'
+                    ikey: 'trigger_times'
                 }
             ]
         });

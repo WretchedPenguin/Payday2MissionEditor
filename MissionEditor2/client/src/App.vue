@@ -13,22 +13,32 @@ import VueRenderPlugin from "rete-vue-render-plugin";
 import ModulePlugin from "rete-module-plugin";
 import ContextMenuPlugin from "rete-context-menu-plugin";
 import AutoArrangePlugin from 'rete-auto-arrange-plugin';
-import NumComponent from "./rete/components/NumComponent";
+import NumComponent from "@/rete/components/constants/NumComponent";
 import CustomNode from "@/rete/renderer/CustomNode";
-import StartupComponent from "./rete/components/StartupComponent";
-import ScriptComponent from "./rete/components/ScriptComponent";
+import StartupComponent from "@/rete/components/control/StartupComponent";
+import ScriptComponent from "@/rete/components/control/ScriptComponent";
 import AreaPlugin from 'rete-area-plugin';
-import AssetComponent from "@/rete/components/AssetComponent";
-import ToggleComponent from "@/rete/components/ToggleComponent";
-import UnitRefComponent from "@/rete/components/UnitRefComponent";
-import TimerComponent from "@/rete/components/TimerComponent";
-import TimerTriggerComponent from "@/rete/components/TimerTriggerComponent";
-import TimerSetComponent from "@/rete/components/TimerSetComponent";
+import AssetComponent from "@/rete/components/constants/AssetComponent";
+import ToggleComponent from "@/rete/components/control/ToggleComponent";
+import UnitRefComponent from "@/rete/components/constants/UnitRefComponent";
+import TimerComponent from "@/rete/components/timer/TimerComponent";
+import TimerTriggerComponent from "@/rete/components/timer/TimerTriggerComponent";
+import TimerSetComponent from "@/rete/components/timer/TimerSetComponent";
 import {ModuleComponent} from "@/rete/components/modules/ModuleComponent";
 import GroupList from "@/components/GroupList";
 import InputComponent from "@/rete/components/modules/InputComponent";
 import sockets from "@/rete/sockets";
 import OutputComponent from "@/rete/components/modules/OutputComponent";
+import SpawnPlayer from "@/rete/components/spawn/SpawnPlayer";
+import SpawnEnemy from "@/rete/components/spawn/SpawnEnemy";
+import SpawnEnemyGroup from "@/rete/components/spawn/SpawnEnemyGroup";
+import DifficultyComponent from "@/rete/components/control/DifficultyComponent";
+import WhisperState from "@/rete/components/control/WhisperState";
+import AreaTrigger from "@/rete/components/trigger/AreaTrigger";
+import PlaySound from "@/rete/components/PlaySound";
+import SpecialObjective from "@/rete/components/unit/SpecialObjective";
+import UnitSequence from "@/rete/components/unit/UnitSequence";
+import MoveUnit from "@/rete/components/unit/MoveUnit";
 
 export default {
   name: 'App',
@@ -37,7 +47,8 @@ export default {
     return {
       editor: {},
       modules: {},
-      components: {}
+      components: {},
+      loadedConnections: []
     }
   },
   methods: {
@@ -45,10 +56,56 @@ export default {
       this.editor.view.resize();
       AreaPlugin.zoomAt(this.editor);
     },
-    async createNode(element) {
-      var node = await this.components[element.class].createNode(element);
-      node.position = [0, 0];
+    async createNode(element, position) {
+      if (!this.components[element.class]) {
+        console.error("no component was found for " + element.class)
+        return;
+      }
+      if (element.values.on_executed) {
+        element.values.on_executed.forEach(item => {
+          this.loadedConnections.push({from: element.id, to: item.id, type: 'element'});
+        })
+      }
+      if (element.values.elements) {
+        element.values.elements.forEach(item => {
+          this.loadedConnections.push({from: element.id, to: item, type: 'group'});
+        })
+      }
+
+      var initialValues = element.values;
+      initialValues.id = element.id;
+
+      var node = await this.components[element.class].createNode(initialValues);
+      node.position = [position.x * 10, position.z * 10];
+
       this.editor.addNode(node);
+      this.resize();
+      this.attemptConnections();
+    },
+    async updateNode(id, name, value) {
+      var node = this.findNode(id);
+      if (!node) {
+        console.error("no node was found for id " + id)
+      }
+      node.data[name] = value;
+    },
+    attemptConnections() {
+      this.loadedConnections.forEach((item, index) => {
+        let from = this.findNode(item.from);
+        let to = this.findNode(item.to);
+
+        if (from && to) {
+          if (item.type === 'element') {
+            this.editor.connect(from.outputs.get('next_elements'), to.inputs.get('previous_elements'));
+          } else {
+            this.editor.connect(from.outputs.get(item.type), to.inputs.get(item.type));
+          }
+          this.loadedConnections.splice(index, 1);
+        }
+      });
+    },
+    findNode(id) {
+      return this.editor.nodes.find(n => n.data.id === id);
     }
   },
   async mounted() {
@@ -76,6 +133,16 @@ export default {
       outputElement: new OutputComponent('Output element', 'Next elements', sockets.element),
       outputNumber: new OutputComponent('Output number', 'Number', sockets.number),
       outputUnitRef: new OutputComponent('Output unit ref', 'Unit ref', sockets.unit),
+      ElementPlayerSpawner: new SpawnPlayer(),
+      ElementSpawnEnemyDummy: new SpawnEnemy(),
+      ElementSpawnEnemyGroup: new SpawnEnemyGroup(),
+      ElementDifficulty: new DifficultyComponent(),
+      ElementWhisperState: new WhisperState(),
+      ElementAreaTrigger: new AreaTrigger(),
+      ElementPlaySound: new PlaySound(),
+      ElementSpecialObjective: new SpecialObjective(),
+      ElementUnitSequence: new UnitSequence(),
+      ElementMoveUnit: new MoveUnit()
     };
     this.components = components;
 
@@ -167,7 +234,6 @@ export default {
     });
 
     this.resize();
-    console.log(editor)
     editor.trigger('process');
   }
 }
@@ -206,7 +272,7 @@ $th: 0.008
   .connection
     path
       fill: none
-      stroke: #eee
+      stroke: $socket-color
       stroke-width: 2px
       pointer-events: none
 
@@ -229,9 +295,6 @@ $th: 0.008
     &.socket-input-time
       path
         stroke: $socket-color-time
-
-  .Element path
-    stroke: $socket-color
 
   .Unit path,
   .Number path

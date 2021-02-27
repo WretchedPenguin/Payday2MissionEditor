@@ -20,6 +20,7 @@
       <_ContentIncludedByDefault Remove="Pages\_ViewStart.cshtml" />
       <_ContentIncludedByDefault Remove="Pages\Components\Counter.razor" />
       <_ContentIncludedByDefault Remove="Pages\Index.razor" />
+      <_ContentIncludedByDefault Remove="client\src\data\prototype.json" />
     </ItemGroup>
 
 </Project>

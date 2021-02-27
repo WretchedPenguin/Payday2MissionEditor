@@ -1,6 +1,11 @@
 @using MissionEditor2.Services
 @using MissionEditor2.Domain
 @using Microsoft.Extensions.Logging
+@using Newtonsoft.Json
+@using System.Numerics
+@using System.Diagnostics.CodeAnalysis
+@using Newtonsoft.Json.Linq
+@using Vector3 = MissionEditor2.Domain.Vector3
 @inject IJSRuntime JsRuntime
 @inject ElementService ElementService
 @implements IDisposable
@@ -13,17 +18,34 @@
     protected override void OnInitialized()
     {
         ElementService.OnElementCreated += OnElementCreated;
+        ElementService.OnElementUpdated += OnElementUpdated;
     }
 
     public void Dispose()
     {
         ElementService.OnElementCreated -= OnElementCreated;
+        ElementService.OnElementUpdated -= OnElementUpdated;
     }
 
     private async Task OnElementCreated(Element element)
     {
         element.Class = ConvertTypeToRete(element);
-        string result = await JsRuntime.InvokeAsync<string>("app.createNode", element);
+        var position = Vector3.FromString(element.Values["position"] as string);
+        if (element.Values.ContainsKey("on_executed"))
+            element.Values["on_executed"] = ((JArray) element.Values["on_executed"]).ToObject<List<ElementConnection>>();
+        if (element.Values.ContainsKey("elements"))
+            element.Values["elements"] = ((JArray) element.Values["elements"]).ToObject<List<long>>();
+
+        string result = await JsRuntime.InvokeAsync<string>("app.createNode", element, position);
+        if (result != null)
+        {
+            Logger.LogInformation(result);
+        }
+    }
+
+    private async Task OnElementUpdated(ElementUpdate elementUpdate)
+    {
+        string result = await JsRuntime.InvokeAsync<string>("app.updateNode", elementUpdate.Id, elementUpdate.Name, elementUpdate.Value);
         if (result != null)
         {
             Logger.LogInformation(result);
@@ -33,9 +55,9 @@
     private string ConvertTypeToRete(Element element)
     {
         string type = element.Class;
-        if (element.Class == "MissionScriptElement" && element.Values.TryGetValue("execute_on_startup", out string eos))
+        if (element.Class == "MissionScriptElement" && element.Values.TryGetValue("execute_on_startup", out object eos))
         {
-            if (eos == "true")
+            if (eos is bool value && value)
                 type = "startup";
         }
         return type;

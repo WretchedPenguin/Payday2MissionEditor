@@ -1,16 +1,11 @@
-﻿import Rete from "rete";
-import sockets from "../sockets";
-import GroupControl from "@/rete/controls/GroupControl";
+﻿import Rete, {Node} from "rete";
+import sockets from "@/rete/sockets";
 import NameControl from "@/rete/controls/NameControl";
-import PreviousElementsInput from "@/rete/io/inputs/PreviousElementsInput";
-import NextElementsOutput from "@/rete/io/outputs/NextElementsOutput";
 import FieldInput from "@/rete/io/inputs/FieldInput";
-import FieldControl from "@/rete/controls/FieldControl";
-import GroupInput from "@/rete/io/inputs/GroupInput";
-import ToggleInput from "@/rete/io/inputs/ToggleInput";
 import FieldOutput from "@/rete/io/outputs/FieldOutput";
+import NamedComponent from "@/rete/components/NamedComponent";
 
-export default class TimerComponent extends Rete.Component {
+export default class TimerComponent extends NamedComponent {
 
     constructor() {
         super("Timer");
@@ -18,7 +13,7 @@ export default class TimerComponent extends Rete.Component {
     }
 
     builder(node) {
-        let name = new NameControl(this.editor);
+        super.builder(node);
 
         let unit = new FieldInput('unit', sockets.unit, {
             emitter: this.editor,
@@ -36,13 +31,13 @@ export default class TimerComponent extends Rete.Component {
         node.icon = 'stopwatch';
 
         node
-            .addControl(name)
             .addInput(unit)
             .addOutput(time)
             .addControl(time.field);
     }
 
     worker(nodeData, inputs, outputs) {
+        super.worker(nodeData, inputs, outputs);
         var node = this.editor.nodes.find(n => n.id === nodeData.id);
 
         if (node) {

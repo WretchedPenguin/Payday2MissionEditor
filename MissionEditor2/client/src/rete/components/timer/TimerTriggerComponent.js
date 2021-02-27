@@ -1,23 +1,19 @@
 ﻿import Rete from "rete";
-import sockets from "../sockets";
-import GroupControl from "@/rete/controls/GroupControl";
+import sockets from "@/rete/sockets";
 import NameControl from "@/rete/controls/NameControl";
-import PreviousElementsInput from "@/rete/io/inputs/PreviousElementsInput";
 import NextElementsOutput from "@/rete/io/outputs/NextElementsOutput";
 import FieldInput from "@/rete/io/inputs/FieldInput";
-import FieldControl from "@/rete/controls/FieldControl";
-import GroupInput from "@/rete/io/inputs/GroupInput";
-import ToggleInput from "@/rete/io/inputs/ToggleInput";
+import NamedComponent from "@/rete/components/NamedComponent";
 
-export default class TimerTriggerComponent extends Rete.Component {
-
+export default class TimerTriggerComponent extends NamedComponent {
+    
     constructor() {
         super("Timer trigger");
         this.path = ['Timer'];
     }
 
     builder(node) {
-        let name = new NameControl(this.editor);
+        super.builder(node);
         
         let time = new Rete.Input('time', 'Time to check', sockets.time);
 
@@ -33,13 +29,13 @@ export default class TimerTriggerComponent extends Rete.Component {
         node.icon = 'stopwatch';
 
         node
-            .addControl(name)
             .addInput(time)
             .addInput(equalTo)
             .addOutput(nextElements);
     }
 
     worker(nodeData, inputs, outputs) {
+        super.worker(nodeData, inputs, outputs);
         // var node = this.editor.nodes.find(n => n.id === nodeData.id);
         //
         // if (node) {

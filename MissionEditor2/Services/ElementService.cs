@@ -9,7 +9,8 @@ namespace MissionEditor2.Services
 {
     public class ElementService
     {
-        public Func<Element,Task> OnElementCreated;
+        public Func<Element, Task> OnElementCreated;
+        public Func<ElementUpdate, Task> OnElementUpdated;
         private readonly Dictionary<long, Element> elements = new();
         private readonly ILogger<ElementService> logger;
 
@@ -18,25 +19,27 @@ namespace MissionEditor2.Services
             this.logger = logger;
         }
 
-        public void UpdateValue(ElementUpdate elementUpdate)
+        public async Task UpdateValue(ElementUpdate elementUpdate)
         {
             if (!elements.ContainsKey(elementUpdate.Id))
-            {                
+            {
                 logger.LogInformation($"tried updating non-existing element {elementUpdate.Id}");
                 return;
             }
-            logger.LogInformation($"updating element {elementUpdate.Id} with {elementUpdate.Name}={elementUpdate.Value}");
+
+            logger.LogInformation(
+                $"updating element {elementUpdate.Id} with {elementUpdate.Name}={elementUpdate.Value}");
             elements[elementUpdate.Id].Values[elementUpdate.Name] = elementUpdate.Value;
+            if (OnElementUpdated != null)
+                await OnElementUpdated?.Invoke(elementUpdate);
         }
 
         public async Task CreateElement(Element element)
         {
             logger.LogInformation("adding element " + JsonConvert.SerializeObject(element));
             elements[element.Id] = element;
-            if (OnElementCreated != null) 
+            if (OnElementCreated != null)
                 await OnElementCreated?.Invoke(element);
         }
-        
-        
     }
 }

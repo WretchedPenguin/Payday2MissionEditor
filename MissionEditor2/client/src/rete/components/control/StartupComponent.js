@@ -1,5 +1,4 @@
 ﻿import Rete from "rete";
-import sockets from "../sockets";
 import NextElementsOutput from "@/rete/io/outputs/NextElementsOutput";
 
 export default class StartupComponent extends Rete.Component {
@@ -13,6 +12,7 @@ export default class StartupComponent extends Rete.Component {
         let out1 = new NextElementsOutput('On startup');
         
         node.icon = 'play-button-arrow';
+        node.path = this.path;
         
         node.addOutput(out1);
     }

@@ -1,11 +1,14 @@
-﻿using System.Threading.Tasks;
+﻿using System.Linq;
+using System.Numerics;
+using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 using MissionEditor2.Domain;
 using MissionEditor2.Services;
+using Newtonsoft.Json;
 
 namespace MissionEditor2.Controllers
-{
+{ 
     [Route("element")]
     public class ElementController : Controller
     {
@@ -17,18 +20,17 @@ namespace MissionEditor2.Controllers
             this.logger = logger;
             this.elementService = elementService;
         }
-
         [Route("update")]
-        public IActionResult Update(ElementUpdate elementUpdate)
+        public async Task<IActionResult> Update(ElementUpdate elementUpdate)
         {
-            elementService.UpdateValue(elementUpdate);
+            await elementService.UpdateValue(elementUpdate);
             return Ok();
         }
 
         [Route("create")]
-        public async Task<IActionResult> Create(Element element)
+        public async Task<IActionResult> Create(string element)
         {
-            await elementService.CreateElement(element);
+            await elementService.CreateElement(JsonConvert.DeserializeObject<Element>(element));
             return Ok();
         }
     }

@@ -1,10 +1,10 @@
 ﻿<template lang="pug">
-  .node(:class="[selected(), node.name] | kebab")
+  .node(:class="[selected(), node.name, node.path ? node.path[0] : ''] | kebab")
     div
       .title-container
         img.img-fluid.icon.m-1(:src="'assets/icons/' + (node.icon ? node.icon : 'script') + '.svg'")
         .title.text-uppercase.text-center.ml-auto.mr-auto {{node.name}}
-  
+
       // Controls
       .control(
         v-if="control.visible"
@@ -20,7 +20,7 @@
           v-control="input.control"
           :class="input.socket.name"
         )
-  
+
       // Outputs
       .output(v-for='output in outputs()' :key="output.key")
         .output-title(v-if="!output.control")  {{output.name}}
@@ -87,7 +87,7 @@ export default {
   .input,
   .control
     padding-bottom: $line-margin
-    
+
   .output
     text-align: right
     justify-content: flex-end
@@ -96,7 +96,7 @@ export default {
     text-align: left
     justify-content: flex-start
 
-  .input-title, 
+  .input-title,
   .output-title
     vertical-align: middle
     color: $text-color
@@ -115,7 +115,7 @@ export default {
   .output-control
     width: 100%
 
-  &.constant,
+  &.constants,
   &.number,
   &.unit-ref
     .title-container
@@ -138,9 +138,10 @@ export default {
     .title-container
       background-color: $socket-color-toggle
 
-  &>.disabled
+  & > .disabled
     .title-container
       background-color: $node-color-disabled
+
     .socket
       background: $socket-color-disabled
 

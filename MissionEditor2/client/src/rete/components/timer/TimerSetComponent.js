@@ -1,10 +1,9 @@
-﻿import Rete from "rete";
-import sockets from "../sockets";
-import NameControl from "@/rete/controls/NameControl";
+﻿import sockets from "@/rete/sockets";
 import PreviousElementsInput from "@/rete/io/inputs/PreviousElementsInput";
 import FieldOutput from "@/rete/io/outputs/FieldOutput";
+import NamedComponent from "@/rete/components/NamedComponent";
 
-export default class TimerSetComponent extends Rete.Component {
+export default class TimerSetComponent extends NamedComponent {
 
     constructor() {
         super("Timer set");
@@ -12,7 +11,7 @@ export default class TimerSetComponent extends Rete.Component {
     }
 
     builder(node) {
-        let name = new NameControl(this.editor);
+        super.builder(node);
         
         let previousElements = new PreviousElementsInput();
 
@@ -26,13 +25,13 @@ export default class TimerSetComponent extends Rete.Component {
         node.icon = 'stopwatch';
 
         node
-            .addControl(name)
             .addInput(previousElements)
             .addOutput(value)
             .addControl(value.field);
     }
 
     worker(nodeData, inputs, outputs) {
+        super.worker(nodeData, inputs, outputs);
         // var node = this.editor.nodes.find(n => n.id === nodeData.id);
         //
         // if (node) {

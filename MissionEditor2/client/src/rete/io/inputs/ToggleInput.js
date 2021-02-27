@@ -14,11 +14,11 @@ export default class ToggleInput extends GroupInput {
                     initial: true
                 },
                 {
-                    name: "Trigger count",
+                    name: "Trigger times",
                     type: "number",
                     append: "x",
-                    ikey: 'triggerCount',
-                    initial: -1
+                    ikey: 'trigger_times',
+                    initial: 0
                 }
             ]
         });

@@ -52,7 +52,7 @@ export default {
     }
   },
   mounted() {
-    if(!this.getData(this.ikey)){
+    if(this.getData(this.ikey) === undefined){
       this.putData(this.ikey, this.initial);
     }
     
