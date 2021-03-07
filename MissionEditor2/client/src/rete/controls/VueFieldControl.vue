@@ -2,8 +2,9 @@
   .field-control
     label( v-if="name" class="label-text col-form-label" v-html="name")
     .input-group.input-group-xs.ml-auto(:class="inputLength ? 'col-' + inputLength : (name ? 'col-6' : 'col-12')")
-      .switch.m-auto( v-if="type === 'checkbox'")
-        input(type="checkbox"
+      label.switch.m-auto( v-if="type === 'checkbox'")
+        input(
+          type="checkbox"
           @change="onCheckboxChange($event)" 
           :checked="value ? 'checked' : ''")
         span.slider.round
