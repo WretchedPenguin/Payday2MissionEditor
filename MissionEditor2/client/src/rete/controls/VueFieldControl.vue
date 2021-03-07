@@ -63,7 +63,7 @@ export default {
 }
 </script>
 
-<style lang="sass" scoped>
+<style lang="sass">
 @import ../vars
 
 $switch-size: 0.5
@@ -89,13 +89,19 @@ $switch-size: 0.5
 .node-input,
 .input-group-text
   color: $text-color
-  background-color: #7F7F7F
+  height: 22px
+  padding: 1px 5px
+  font-size: $text-size
+  line-height: 1.5
+  background-color: $input-background-color
   border: none
+  
+  &:focus
+    background-color: $input-background-color
 
   &::placeholder
     color: $placeholder-color
 
-.node-input
   &:read-only
     background-color: #595959
 

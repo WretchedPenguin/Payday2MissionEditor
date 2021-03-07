@@ -5,9 +5,10 @@
       .tcol
     .trow(v-for="(field, fieldIndex) in fields" :key="field.key")
       .tcol(v-for="(type, index) in types")
-        input.form-control.node-input.list-input(
+        input.form-control.node-input.text-center.list-input(
           v-model="fields[fieldIndex][type.key]" 
-          @input="(event) => onChange(event, fieldIndex)")
+          @input="(event) => onChange(event, fieldIndex)"
+          :placeholder="type.name")
       .tcol.icon-container(v-if="fieldIndex !== Object.keys(fields).length - 1" @click.stop="deleteField(field.key)")
         HoverImage.m-auto.icon(
           src="assets/icons/rubbish.svg"
@@ -21,7 +22,7 @@ import HoverImage from "@/components/HoverImage";
 
 export default {
   components: {HoverImage: HoverImage, VueFieldControl: VueFieldControl},
-  props: ['emitter', 'getData', 'putData', 'types', 'ikey', 'initial'],
+  props: ['emitter', 'getData', 'putData', 'types', 'ikey', 'initial', 'change'],
   data() {
     return {
       fields: [],
@@ -31,7 +32,7 @@ export default {
   },
   methods: {
     addField() {
-      this.fields.push({key: this.lastKey++, notify_unit_id: 0, notify_unit_sequence: '', time: 0});
+      this.fields.push({key: this.lastKey++});
     },
     deleteField(key) {
       this.fields = this.fields.filter(f => f.key !== key);
@@ -45,6 +46,15 @@ export default {
         this.addField();
         this.firstChange = true;
       }
+    },
+    update() {
+      if (this.ikey) {
+        this.putData(this.ikey, this.fields);
+        if (this.change) {
+          this.change(this.fields);
+        }
+      }
+      this.emitter.trigger('process');
     }
   },
   mounted() {

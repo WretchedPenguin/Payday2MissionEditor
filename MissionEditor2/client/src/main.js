@@ -11,6 +11,6 @@ new Vue({
 })
 
 
-Prototype.addNodes(app.editor, app.components).then(() => {
-    app.resize();
-});
+// Prototype.addNodes(app.editor, app.components).then(() => {
+//     app.resize();
+// });
