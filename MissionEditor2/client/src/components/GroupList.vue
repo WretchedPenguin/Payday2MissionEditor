@@ -11,8 +11,7 @@
           HoverImage.m-auto.icon(
             v-if="key != 'Global'"
             src="assets/icons/pencil.svg"
-            src-hover="assets/icons/pencil-filled.svg"
-            @click.stop="renameModule(key)")
+            src-hover="assets/icons/pencil-filled.svg")
         .d-flex(@click.stop="deleteModule(key)")
           HoverImage.m-auto.icon(
             v-if="key != 'Global'"

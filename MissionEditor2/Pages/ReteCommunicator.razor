@@ -35,6 +35,8 @@
             element.Values["on_executed"] = ((JArray) element.Values["on_executed"]).ToObject<List<ElementConnection>>();
         if (element.Values.ContainsKey("elements"))
             element.Values["elements"] = ((JArray) element.Values["elements"]).ToObject<List<long>>();
+        if (element.Values.ContainsKey("trigger_list"))
+            element.Values["trigger_list"] = ((JArray) element.Values["trigger_list"]).ToObject<List<UnitSequenceItem>>();
 
         string result = await JsRuntime.InvokeAsync<string>("app.createNode", element, position);
         if (result != null)

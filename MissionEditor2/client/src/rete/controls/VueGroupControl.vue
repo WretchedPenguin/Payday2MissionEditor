@@ -44,11 +44,6 @@ $line_width: 3%
 
 .input-control > .field-group,
 .output-control > .field-group
-  //margin-left: -15px
-  //margin-right: -15px
-  //&> .row
-  //  margin-left: 0px
-  //  margin-right: 0px
   &:after,
   &:before
     border-bottom: 1px solid $socket-color

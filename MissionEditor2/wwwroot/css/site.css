@@ -6,6 +6,7 @@ html, body {
   height: 100%;
   margin: 0;
   padding: 0;
+  caret-color: white;
 }
 
 /* Chrome, Safari, Edge, Opera */
@@ -19,6 +20,8 @@ input::-webkit-inner-spin-button {
 input[type=number] {
   -moz-appearance: textfield;
 }
+
+
 
 #blazor-error-ui{
   background: lightyellow;

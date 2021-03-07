@@ -1,24 +1,25 @@
-﻿<template>
-  <div class="field-control">
-    <label v-if="name" class="label-text col-form-label">{{ name }}</label>
-    <div :class="inputLength ? 'col-' + inputLength : (name ? 'col-6' : 'col-12')" class="input-group input-group-xs ml-auto">
-      <label v-if="type === 'checkbox'" class="switch m-auto">
-        <input type="checkbox" @change="onCheckboxChange($event)" :checked="value ? 'checked' : ''">
-        <span class="slider round"></span>
-      </label>
-      <input v-else class="form-control node-input text-center"
-             :type="type || 'text'"
-             :readonly="read_only"
-             :value="value"
-             :placeholder="placeholder"
-             @input="onChange($event)"
-             @dblclick.stop=""
-             @pointerdown.stop="" @pointermove.stop=""/>
-      <div v-if="append" class="input-group-append">
-        <span class="input-group-text">{{ append }}</span>
-      </div>
-    </div>
-  </div>
+﻿<template lang="pug">
+  .field-control
+    label( v-if="name" class="label-text col-form-label" v-html="name")
+    .input-group.input-group-xs.ml-auto(:class="inputLength ? 'col-' + inputLength : (name ? 'col-6' : 'col-12')")
+      .switch.m-auto( v-if="type === 'checkbox'")
+        input(type="checkbox"
+          @change="onCheckboxChange($event)" 
+          :checked="value ? 'checked' : ''")
+        span.slider.round
+      input.form-control.node-input.text-center(
+        v-else
+        :type="type || 'text'"
+        :readonly="read_only"
+        :value="value"
+        :placeholder="placeholder"
+        @input="onChange($event)"
+        @dblclick.stop=""
+        @pointerdown.stop="" 
+        @pointermove.stop=""
+        step="0.1")
+      .input-group-append( v-if="append")
+        .input-group-text(v-html="append")
 </template>
 
 <script>
@@ -38,24 +39,24 @@ export default {
       this.value = this.parse(e.target.value);
       this.update();
     },
-    onCheckboxChange(e){
+    onCheckboxChange(e) {
       this.value = e.target.checked;
       this.update();
     },
     update() {
       if (this.ikey) {
         this.putData(this.ikey, this.value);
-        if(this.change)
+        if (this.change)
           this.change(this.value);
       }
       this.emitter.trigger('process');
     }
   },
   mounted() {
-    if(this.getData(this.ikey) === undefined){
+    if (this.getData(this.ikey) === undefined) {
       this.putData(this.ikey, this.initial);
     }
-    
+
     this.value = this.getData(this.ikey);
   }
 }
@@ -66,9 +67,9 @@ export default {
 
 $switch-size: 0.5
 
-
 .field-control
   display: flex
+
   .form-control,
   .input-group-addon,
   .input-group-btn > .btn,
@@ -78,8 +79,9 @@ $switch-size: 0.5
     color: $text-color
     height: 22px
     padding: 1px 5px
-    font-size: 12px
+    font-size: $text-size
     line-height: 1.5
+
     ::placeholder
       color: $placeholder-color
 
@@ -88,6 +90,7 @@ $switch-size: 0.5
   color: $text-color
   background-color: #7F7F7F
   border: none
+
   &::placeholder
     color: $placeholder-color
 
@@ -97,7 +100,7 @@ $switch-size: 0.5
 
     & + .input-group-append > .input-group-text
       background-color: #595959
-      
+
 .switch
   position: relative
   display: inline-block

@@ -5,8 +5,9 @@ import sockets from "@/rete/sockets";
 import TextControl from "@/rete/controls/TextControl";
 import NumberControl from "@/rete/controls/NumberControl";
 import BooleanControl from "@/rete/controls/BooleanControl";
+import ListControl from "@/rete/controls/ListControl";
 
-export default class SpawnEnemyGroup extends NamedComponent{
+export default class SpawnEnemyGroup extends NamedComponent {
 
     constructor() {
         super("Spawn enemy group");
@@ -22,6 +23,9 @@ export default class SpawnEnemyGroup extends NamedComponent{
         let ignoreDisabled = new BooleanControl("ignore_disabled", this.editor, "Ignore disabled", true);
         let spawnType = new TextControl('spawn_type', this.editor, "Spawn type", "ordered");
         let team = new TextControl('team', this.editor, "Team", "default");
+        let spawnGroups = new ListControl('preferred_spawn_groups', {emitter: this.editor, visible: true, fields:[
+                "hello"
+            ]})
 
         node.icon = 'police-station';
 
@@ -31,6 +35,7 @@ export default class SpawnEnemyGroup extends NamedComponent{
             .addControl(ignoreDisabled)
             .addControl(spawnType)
             .addControl(team)
+            .addControl(spawnGroups)
             .addOutput(enemySpawns);
     }
 

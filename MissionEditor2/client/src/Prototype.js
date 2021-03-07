@@ -18,7 +18,7 @@
         var timerSet = await components['timerSet'].createNode({value: 180, editor_name: "Set chopper delay"});
         var group = await components['module'].createNode({module: 'Other logic'});
 
-        var rest = await components['MissionScriptElement'].createNode({editor_name: "Rest of the heist", enabled: true, base_delay: 0});
+        var unitSequence = await components['ElementUnitSequence'].createNode({editor_name: "sequence"});
 
         constant.position = [500, 400];
         startup.position = [80, 200];
@@ -30,7 +30,7 @@
         timer.position = [1400, -20];
         timerTrigger.position = [1800, 30];
         timerSet.position = [1400, 650];
-        // rest.position = [5000, 240];
+        unitSequence.position = [1375, 240];
         group.position = [500, -40];
 
         editor.addNode(constant);
@@ -43,7 +43,7 @@
         editor.addNode(timer);
         editor.addNode(timerTrigger);
         editor.addNode(timerSet);
-        // editor.addNode(rest);
+        editor.addNode(unitSequence);
         editor.addNode(group);
 
         editor.connect(constant.outputs.get('num'), vanEscape.inputs.get('base_delay'));
