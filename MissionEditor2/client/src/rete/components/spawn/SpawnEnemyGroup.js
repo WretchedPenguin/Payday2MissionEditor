@@ -23,8 +23,9 @@ export default class SpawnEnemyGroup extends NamedComponent {
         let ignoreDisabled = new BooleanControl("ignore_disabled", this.editor, "Ignore disabled", true);
         let spawnType = new TextControl('spawn_type', this.editor, "Spawn type", "ordered");
         let team = new TextControl('team', this.editor, "Team", "default");
-        let spawnGroups = new ListControl('preferred_spawn_groups', {emitter: this.editor, visible: true, fields:[
-                "hello"
+        let spawnGroups = new ListControl('preferred_spawn_groups', {emitter: this.editor, visible: true,
+            types: [
+                {name: "Unit type", type: "text", key: "value"}
             ]})
 
         node.icon = 'police-station';

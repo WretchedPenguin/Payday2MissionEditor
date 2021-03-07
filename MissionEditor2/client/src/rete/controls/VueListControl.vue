@@ -6,7 +6,7 @@
     .trow(v-for="(field, fieldIndex) in fields" :key="field.key")
       .tcol(v-for="(type, index) in types")
         input.form-control.node-input.text-center.list-input(
-          v-model="fields[fieldIndex][type.key]" 
+          v-model="fields[fieldIndex][type.key]"
           @input="(event) => onChange(event, fieldIndex)"
           :placeholder="type.name")
       .tcol.icon-container(v-if="fieldIndex !== Object.keys(fields).length - 1" @click.stop="deleteField(field.key)")
@@ -62,7 +62,17 @@ export default {
       this.putData(this.ikey, this.initial);
     }
     this.fields = this.getData(this.ikey);
-    this.fields.forEach((value => value.key = this.lastKey++))
+    if (this.fields === undefined) {
+      this.fields = [];
+    }
+    this.fields = this.fields.map((value => {
+      if (typeof (value) !== 'object') {
+        value = {value: value}
+      }
+      value.key = this.lastKey++;
+      return value;
+    }));
+    
     this.addField()
   }
 }
@@ -101,7 +111,7 @@ export default {
 
         ::placeholder
           color: $placeholder-color
-      
+
       &.icon-container
         max-width: 10px
         text-align: center
@@ -109,8 +119,7 @@ export default {
         .icon
           width: 15px
           padding-bottom: 3px
-          
-        
+
 
   .col-12
     padding: 0px

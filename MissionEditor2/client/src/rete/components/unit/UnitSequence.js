@@ -27,18 +27,6 @@ export default class UnitSequence extends NamedComponent {
                 {name: "Unit", type: "number", key: "notify_unit_id"},
                 {name: "Sequence", type: "text", key: "notify_unit_sequence"},
                 {name: "Time", type: "number", key: "time"},
-            ], 
-            initial: [
-                {
-                    notify_unit_id: 100000,
-                    notify_unit_sequence: "some_sequence",
-                    time: 3
-                },
-                {
-                    notify_unit_id: 100001,
-                    notify_unit_sequence: "other_sequence",
-                    time: 5
-                },
             ]
         })
 

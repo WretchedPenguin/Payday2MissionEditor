@@ -14,7 +14,7 @@
 @* this class contains no html and is only used to communicate with javascript when elements are changed *@
 
 @code {
-
+    
     protected override void OnInitialized()
     {
         ElementService.OnElementCreated += OnElementCreated;
@@ -31,18 +31,28 @@
     {
         element.Class = ConvertTypeToRete(element);
         var position = Vector3.FromString(element.Values["position"] as string);
-        if (element.Values.ContainsKey("on_executed"))
-            element.Values["on_executed"] = ((JArray) element.Values["on_executed"]).ToObject<List<ElementConnection>>();
-        if (element.Values.ContainsKey("elements"))
-            element.Values["elements"] = ((JArray) element.Values["elements"]).ToObject<List<long>>();
-        if (element.Values.ContainsKey("trigger_list"))
-            element.Values["trigger_list"] = ((JArray) element.Values["trigger_list"]).ToObject<List<UnitSequenceItem>>();
 
+        ParseLists(element);
+        
         string result = await JsRuntime.InvokeAsync<string>("app.createNode", element, position);
         if (result != null)
         {
             Logger.LogInformation(result);
         }
+    }
+
+    private void ParseLists(Element element)
+    {
+        ParseList<ElementConnection>(element, "on_executed");
+        ParseList<long>(element, "elements");
+        ParseList<UnitSequenceItem>(element, "trigger_list");
+        ParseList<string>(element, "preferred_spawn_groups");
+    }
+
+    private void ParseList<T>(Element element, string name)
+    {
+        if (element.Values.ContainsKey(name))
+            element.Values[name] = ((JArray) element.Values[name]).ToObject<List<T>>();
     }
 
     private async Task OnElementUpdated(ElementUpdate elementUpdate)
