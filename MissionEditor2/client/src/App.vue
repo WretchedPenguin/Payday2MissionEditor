@@ -1,9 +1,8 @@
-<template>
-  <div id="rete-container">
-    <div id="rete">
-      <GroupList :editor="editor" :modules="modules" :resize="resize"></GroupList>
-    </div>
-  </div>
+<template lang="pug">
+  #rete-container
+    Header
+    #rete
+      GroupList(:editor='editor' :modules='modules' :resize='resize')
 </template>
 
 <script>
@@ -39,10 +38,11 @@ import PlaySound from "@/rete/components/PlaySound";
 import SpecialObjective from "@/rete/components/unit/SpecialObjective";
 import UnitSequence from "@/rete/components/unit/UnitSequence";
 import MoveUnit from "@/rete/components/unit/MoveUnit";
+import Header from "@/components/Header";
 
 export default {
   name: 'App',
-  components: {GroupList},
+  components: {Header, GroupList},
   data() {
     return {
       editor: {},
@@ -259,6 +259,9 @@ $th: 0.008
 @function lines($dir)
   @return line($dir, 0.5, $th * 2, $grid-color), line($dir, 0.25, $th, $grid-color), line($dir, 0.75, $th, $grid-color), line($dir, 1, $th * 2, $grid-color)
 
+.bg-dark
+  background-color: $node_color !important
+  
 .custom-node-editor
   .background
     z-index: -5
