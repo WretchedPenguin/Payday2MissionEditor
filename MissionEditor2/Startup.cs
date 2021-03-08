@@ -1,3 +1,5 @@
+using System.Threading.Tasks;
+using ElectronNET.API;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.SpaServices;
@@ -47,7 +49,6 @@ namespace MissionEditor2
             app.UseStaticFiles();
             app.UseSpaStaticFiles();
             
-
             app.UseRouting();
 
             app.UseAuthorization();
@@ -64,6 +65,8 @@ namespace MissionEditor2
                 );
                 endpoints.MapBlazorHub();
             });
+            
+            Task.Run(async () => await Electron.WindowManager.CreateWindowAsync());
         }
     }
 }

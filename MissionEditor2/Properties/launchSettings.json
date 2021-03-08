@@ -1,4 +1,4 @@
-﻿{
+{
   "iisSettings": {
     "windowsAuthentication": false,
     "anonymousAuthentication": true,
@@ -8,6 +8,13 @@
     }
   },
   "profiles": {
+    "Electron Watch": {
+      "commandName": "Executable",
+      "executablePath": "electronize",
+      "commandLineArgs": "start /watch",
+      "workingDirectory": "$(ProjectDir)"
+    },
+
     "IIS Express": {
       "commandName": "IISExpress",
       "launchBrowser": true,
