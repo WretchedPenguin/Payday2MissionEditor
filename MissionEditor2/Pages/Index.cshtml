@@ -1,9 +1,12 @@
 ﻿@page
+@using MissionEditor2.Pages.Communicators
+@using System.Runtime.CompilerServices
 @model IndexModel
 @{
     ViewData["Title"] = "Home page";
 }
-<component type="typeof(ReteCommunicator)" render-mode="Server"/>
+<component type="typeof(ElementCommunicator)" render-mode="Server"/>
+<component type="typeof(CommandCommunicator)" render-mode="Server"/>
 <div id="app"></div>
 
 

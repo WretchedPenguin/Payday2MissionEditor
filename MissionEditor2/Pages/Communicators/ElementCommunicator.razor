@@ -1,22 +1,22 @@
 @using MissionEditor2.Services
 @using MissionEditor2.Domain
 @using Microsoft.Extensions.Logging
-@using Newtonsoft.Json
-@using System.Numerics
-@using System.Diagnostics.CodeAnalysis
 @using Newtonsoft.Json.Linq
 @using Vector3 = MissionEditor2.Domain.Vector3
 @inject IJSRuntime JsRuntime
 @inject ElementService ElementService
 @implements IDisposable
-@inject ILogger<ReteCommunicator> Logger
+@inject ILogger<ElementCommunicator> Logger
 
 @* this class contains no html and is only used to communicate with javascript when elements are changed *@
 
 @code {
+
+    private static ElementCommunicator instance;
     
     protected override void OnInitialized()
     {
+        instance = this;
         ElementService.OnElementCreated += OnElementCreated;
         ElementService.OnElementUpdated += OnElementUpdated;
     }

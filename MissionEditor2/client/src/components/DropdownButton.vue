@@ -3,9 +3,7 @@
     button.btn.btn-secondary.dropdown-toggle(type='button' data-toggle='dropdown' aria-haspopup='true' aria-expanded='false' :id="id")
      | {{title}}
     .dropdown-menu(:aria-labelledby="id")
-      a.dropdown-item(href='#') Action
-      a.dropdown-item(href='#') Another action
-      a.dropdown-item(href='#') Something else here
+      a.dropdown-item(href='#' v-for="item in items" :key="item.title" @click="item.onClick") {{item.title}} 
 </template>
 
 <script>

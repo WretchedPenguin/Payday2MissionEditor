@@ -1,6 +1,6 @@
 ﻿<template lang="pug">
   .header.bg-dark
-    DropdownButton(v-for="item in items" :title="item.title" :items="items")
+    DropdownButton(v-for="item in items" :title="item.title" :items="item.items" :key="title")
 </template>
 
 <script>
@@ -15,18 +15,25 @@ export default {
         {
           title: "File",
           items: [
-            {title: "Save",onClick: this.save()}
+            {title: "Save", onClick: this.save},
+            {title: "Save as...", onClick: this.save},
+            {title: "Import from BeardLib", onClick: this.importBeardLib},
           ]
         }
-      ],
-      lastSaveLocation: ''
+      ]
     }
   },
   methods: {
     save() {
-
+      // TODO: actual save function
+      console.log('saving')
+    },
+    importBeardLib() {
+      console.log('import');
+      DotNet.invokeMethodAsync('MissionEditor2', 'ImportFromBeardLib');
     }
-  }
+  },
+
 
 }
 </script>

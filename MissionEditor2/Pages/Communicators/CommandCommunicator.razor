@@ -1,0 +1,30 @@
+﻿@using MissionEditor2.Services
+@using Microsoft.Extensions.Logging
+@inject IJSRuntime JsRuntime
+@inject CommandService CommandService
+@implements IDisposable
+@inject ILogger<CommandCommunicator> Logger
+
+@* this class contains no html and is only used to communicate with javascript for sending commands to the BeardLib editor *@
+
+@code {
+
+    private static CommandCommunicator instance;
+
+    protected override void OnInitialized()
+    {
+        instance = this;
+    }
+
+    [JSInvokable]
+    public static void ImportFromBeardLib()
+    {
+        instance.CommandService.ImportFromBeardLib();
+    }
+
+    public void Dispose()
+    {
+        
+    }
+
+}

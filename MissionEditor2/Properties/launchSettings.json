@@ -10,8 +10,8 @@
   "profiles": {
     "Electron Watch": {
       "commandName": "Executable",
-      "executablePath": "electronize",
-      "commandLineArgs": "start /watch",
+      "executablePath": "dotnet",
+      "commandLineArgs": "electronize start /watch",
       "workingDirectory": "$(ProjectDir)"
     },
 

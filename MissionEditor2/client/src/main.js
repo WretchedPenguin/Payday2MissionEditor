@@ -1,6 +1,8 @@
 import Vue from 'vue'
 import App from './App.vue'
 import Prototype from "@/Prototype";
+require('jquery')
+require('bootstrap')
 
 window.app = {};
 Vue.config.silent = true;

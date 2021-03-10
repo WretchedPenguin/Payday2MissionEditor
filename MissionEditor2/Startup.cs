@@ -28,6 +28,7 @@ namespace MissionEditor2
             services.AddServerSideBlazor();
 
             services.AddSingleton<ElementService>();
+            services.AddSingleton<CommandService>();
 
             services.AddSpaStaticFiles(opt => opt.RootPath = "ClientApp/dist");
         }
