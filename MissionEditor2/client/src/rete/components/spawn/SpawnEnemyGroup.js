@@ -16,7 +16,8 @@ export default class SpawnEnemyGroup extends NamedComponent {
 
     builder(node) {
         super.builder(node);
-        let enemySpawns = new Rete.Output('group', 'Elements', sockets.enemy);
+        let preferred = new Rete.Input('group', 'Preferred', sockets.enemyGroup)
+        let enemySpawns = new Rete.Output('enemies', 'Elements', sockets.enemy);
 
         let amount = new NumberControl("amount", this.editor, "Amount", 0);
         let interval = new NumberControl("interval", this.editor, "Interval", 0);
@@ -28,9 +29,10 @@ export default class SpawnEnemyGroup extends NamedComponent {
                 {name: "Unit type", type: "text", key: "value"}
             ]})
 
-        node.icon = 'police-station';
+        node.icon = 'police-car';
 
         node
+            .addInput(preferred)
             .addControl(amount)
             .addControl(interval)
             .addControl(ignoreDisabled)

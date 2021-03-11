@@ -6,5 +6,7 @@ export default {
     toggle: new Rete.Socket("Toggle"),
     unit: new Rete.Socket("Unit"),
     time: new Rete.Socket("Time"),
-    enemy: new Rete.Socket("Enemy")
+    enemy: new Rete.Socket("Enemy"),
+    enemyGroup: new Rete.Socket("EnemyGroup"),
+    remove: new Rete.Socket("PreferredRemove"),
 }

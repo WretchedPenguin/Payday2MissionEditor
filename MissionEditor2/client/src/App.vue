@@ -39,6 +39,9 @@ import SpecialObjective from "@/rete/components/unit/SpecialObjective";
 import UnitSequence from "@/rete/components/unit/UnitSequence";
 import MoveUnit from "@/rete/components/unit/MoveUnit";
 import Header from "@/components/Header";
+import EnemyPreferredAdd from "@/rete/components/spawn/EnemyPreferredAdd";
+import EnemyPreferredRemove from "@/rete/components/spawn/EnemyPreferredRemove";
+require("jquery");
 
 export default {
   name: 'App',
@@ -142,7 +145,9 @@ export default {
       ElementPlaySound: new PlaySound(),
       ElementSpecialObjective: new SpecialObjective(),
       ElementUnitSequence: new UnitSequence(),
-      ElementMoveUnit: new MoveUnit()
+      ElementMoveUnit: new MoveUnit(),
+      ElementEnemyPreferedAdd: new EnemyPreferredAdd(),
+      ElementEnemyPreferedRemove: new EnemyPreferredRemove(),
     };
     this.components = components;
 

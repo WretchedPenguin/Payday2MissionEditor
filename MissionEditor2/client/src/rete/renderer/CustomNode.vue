@@ -3,7 +3,8 @@
     div
       .title-container
         img.img-fluid.icon.m-1(:src="'assets/icons/' + (node.icon ? node.icon : 'script') + '.svg'")
-        .title.text-uppercase.text-center.ml-auto.mr-auto {{node.name}}
+        div.title.text-uppercase.text-center.ml-auto.mr-auto
+          span.autoshrink {{node.name}}
 
       // Controls
       .control(
@@ -35,13 +36,19 @@
 <script>
 import mixin from './mixin';
 import Socket from './Socket.vue';
+import jQuery from 'jquery';
+
 
 export default {
   mixins: [mixin],
   components: {
     Socket
+  },
+  mounted() {
+    setTimeout(() => $('.autoshrink').autoshrink(), 10);
   }
 }
+
 </script>
 
 <style lang="sass">
@@ -77,6 +84,8 @@ export default {
     font-size: $title-size
     padding: 8px
     font-weight: bold
+    max-width: 230px
+    white-space: nowrap
 
   .output,
   .input
