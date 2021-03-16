@@ -41,6 +41,10 @@ import MoveUnit from "@/rete/components/unit/MoveUnit";
 import Header from "@/components/Header";
 import EnemyPreferredAdd from "@/rete/components/spawn/EnemyPreferredAdd";
 import EnemyPreferredRemove from "@/rete/components/spawn/EnemyPreferredRemove";
+import Operator from "@/rete/components/control/Operator";
+import AIGraph from "@/rete/components/control/AIGraph";
+import EnableUnit from "@/rete/components/unit/EnableUnit";
+import DisableUnit from "@/rete/components/unit/DisableUnit";
 require("jquery");
 
 export default {
@@ -148,6 +152,10 @@ export default {
       ElementMoveUnit: new MoveUnit(),
       ElementEnemyPreferedAdd: new EnemyPreferredAdd(),
       ElementEnemyPreferedRemove: new EnemyPreferredRemove(),
+      ElementOperator: new Operator(),
+      ElementAIGraph: new AIGraph(),
+      ElementEnableUnit: new EnableUnit(),
+      ElementDisableUnit: new DisableUnit()
     };
     this.components = components;
 

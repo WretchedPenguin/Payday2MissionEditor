@@ -13,11 +13,11 @@ export default class FieldControl extends Rete.Control {
     }
 
     setValue(val) {
-        this.vueContext.value = val;
+        //this.vueContext.value = val;
     }
     
     setReadonly(readonly){
-        this.vueContext.read_only = readonly;
+        //this.vueContext.read_only = readonly;
     }
 
     onChange() {}

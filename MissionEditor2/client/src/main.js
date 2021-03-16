@@ -23,16 +23,6 @@ Prototype.addNodes(app.editor, app.components).then(() => {
 
 
 (function($) {
-
-    function getTextWidth($element) {
-        var tester = $("<div/>").text($element.text())
-                .css({ "position": "absolute", "float": "left", "white-space": "nowrap", "visibility": "hidden", "font": $element.css("font"), "text-transform": $element.css("text-transform"), "letter-spacing": $element.css("letter-spacing") })
-                .appendTo($element.parent()),
-            width = tester.innerWidth();
-        tester.remove();
-        return width;
-    }
-
     function AutoShrinker($element) {
         this.$element = $element;
         this.$parent = $element.parent();

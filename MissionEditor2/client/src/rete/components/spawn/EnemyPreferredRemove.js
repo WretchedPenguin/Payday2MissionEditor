@@ -16,7 +16,7 @@ export default class EnemyPreferredRemove extends NamedComponent {
 
     builder(node) {
         super.builder(node);
-        let preferred = new Rete.Output('remove', 'Remove', sockets.remove)
+        let preferred = new Rete.Output('elements', 'Remove', sockets.preferredRemove)
 
         node.icon = 'police-station';
 

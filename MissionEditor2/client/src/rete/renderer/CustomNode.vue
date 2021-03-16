@@ -36,8 +36,6 @@
 <script>
 import mixin from './mixin';
 import Socket from './Socket.vue';
-import jQuery from 'jquery';
-
 
 export default {
   mixins: [mixin],
@@ -84,7 +82,7 @@ export default {
     font-size: $title-size
     padding: 8px
     font-weight: bold
-    max-width: 230px
+    max-width: 220px
     white-space: nowrap
 
   .output,

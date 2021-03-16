@@ -8,5 +8,6 @@ export default {
     time: new Rete.Socket("Time"),
     enemy: new Rete.Socket("Enemy"),
     enemyGroup: new Rete.Socket("EnemyGroup"),
-    remove: new Rete.Socket("PreferredRemove"),
+    preferredRemove: new Rete.Socket("PreferredRemove"),
+    operator: new Rete.Socket("Operator"),
 }

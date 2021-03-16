@@ -7,3 +7,4 @@ riderModule.iml
 /.idea/.idea.MissionEditor2/.idea
 MissionEditor2/wwwroot/app/js/chunk-vendors.js
 MissionEditor2/wwwroot/app/js/index.js
+MissionEditor2/client/public/build
