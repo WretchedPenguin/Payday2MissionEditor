@@ -35,32 +35,31 @@
         group.position = [500, -40];
         spawnEnemyGroup.position = [1750, 240];
 
-        // editor.addNode(constant);
-        // editor.addNode(startup);
-        // editor.addNode(vanEscape);
-        // editor.addNode(chopperEscape);
-        // editor.addNode(asset);
-        // editor.addNode(enableChopperEscape);
-        // editor.addNode(unitRef);
-        // editor.addNode(timer);
-        // editor.addNode(timerTrigger);
-        // editor.addNode(timerSet);
-        // editor.addNode(unitSequence);
-        // editor.addNode(group);
-        editor.addNode(spawnEnemyGroup);
+        editor.addNode(constant);
+        editor.addNode(startup);
+        editor.addNode(vanEscape);
+        editor.addNode(chopperEscape);
+        editor.addNode(asset);
+        editor.addNode(enableChopperEscape);
+        editor.addNode(unitRef);
+        editor.addNode(timer);
+        editor.addNode(timerTrigger);
+        editor.addNode(timerSet);
+        editor.addNode(unitSequence);
+        editor.addNode(group);
 
-        // editor.connect(constant.outputs.get('num'), vanEscape.inputs.get('base_delay'));
-        // editor.connect(constant.outputs.get('num'), chopperEscape.inputs.get('base_delay'));
-        // editor.connect(startup.outputs.get('next_elements'), vanEscape.inputs.get('previous_elements'));
-        // editor.connect(startup.outputs.get('next_elements'), chopperEscape.inputs.get('previous_elements'));
-        // editor.connect(startup.outputs.get('next_elements'), group.inputs.get('Previous elements'));
+        editor.connect(constant.outputs.get('num'), vanEscape.inputs.get('base_delay'));
+        editor.connect(constant.outputs.get('num'), chopperEscape.inputs.get('base_delay'));
+        editor.connect(startup.outputs.get('next_elements'), vanEscape.inputs.get('previous_elements'));
+        editor.connect(startup.outputs.get('next_elements'), chopperEscape.inputs.get('previous_elements'));
+        editor.connect(startup.outputs.get('next_elements'), group.inputs.get('Previous elements'));
 
-        // editor.connect(asset.outputs.get('next_elements'), enableChopperEscape.inputs.get('previous_elements'));
-        // editor.connect(enableChopperEscape.outputs.get('toggle'), chopperEscape.inputs.get('toggle'));
-        // editor.connect(chopperEscape.outputs.get('next_elements'), timerSet.inputs.get('previous_elements'));
-        //
-        // editor.connect(unitRef.outputs.get('unit'), timer.inputs.get('unit'));
-        // editor.connect(timer.outputs.get('time'), timerTrigger.inputs.get('time'));
+        editor.connect(asset.outputs.get('next_elements'), enableChopperEscape.inputs.get('previous_elements'));
+        editor.connect(enableChopperEscape.outputs.get('toggle'), chopperEscape.inputs.get('toggle'));
+        editor.connect(chopperEscape.outputs.get('next_elements'), timerSet.inputs.get('previous_elements'));
+
+        editor.connect(unitRef.outputs.get('unit'), timer.inputs.get('unit'));
+        editor.connect(timer.outputs.get('time'), timerTrigger.inputs.get('time'));
     }
     
 }

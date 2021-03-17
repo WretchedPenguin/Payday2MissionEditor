@@ -1,5 +1,5 @@
 ﻿<template lang="pug">
-  .header.bg-dark
+  .header.bg-dark.list-group.list-group-horizontal
     DropdownButton(v-for="item in items" :title="item.title" :items="item.items" :key="title")
 </template>
 
@@ -15,13 +15,14 @@ export default {
         {
           title: "File",
           items: [
-            {title: "Save", onClick: this.save},
+            {title: "New", onClick: this.clear},
+            {title: "Save", onClick: this.new},
             {title: "Save as...", onClick: this.save},
             {title: "Import from BeardLib", onClick: this.importBeardLib},
           ],
         },
         {
-          title: "Element",
+          title: "Elements",
           items: [
             {title: "Auto align", onClick: this.autoAlign},
           ],
@@ -30,6 +31,9 @@ export default {
     }
   },
   methods: {
+    new(){
+      this.clear();
+    },
     save() {
       // TODO: actual save function
       console.log('saving')

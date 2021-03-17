@@ -1,9 +1,9 @@
 ﻿<template lang="pug">
   .dropdown
-    button.btn.btn-secondary.dropdown-toggle(type='button' data-toggle='dropdown' aria-haspopup='true' aria-expanded='false' :id="id")
+    .btn.btn-secondary.dropdown-toggle.text-uppercase.bg-transparent.border-0(type='button' data-toggle='dropdown' aria-haspopup='true' aria-expanded='false' :id="id")
      | {{title}}
-    .dropdown-menu(:aria-labelledby="id")
-      a.dropdown-item(href='#' v-for="item in items" :key="item.title" @click="item.onClick") {{item.title}} 
+    .dropdown-menu.bg-dark(:aria-labelledby="id")
+      .dropdown-item.text-white(href='#' v-for="item in items" :key="item.title" @click="item.onClick") {{item.title}} 
 </template>
 
 <script>
@@ -18,6 +18,7 @@ export default {
 }
 </script>
 
-<style scoped>
-
+<style lang="sass" scoped>
+  .btn
+    width: 10rem
 </style>

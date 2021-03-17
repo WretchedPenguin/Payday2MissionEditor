@@ -163,8 +163,8 @@ $th: 0.008
 @function lines($dir)
   @return line($dir, 0.5, $th * 2, $grid-color), line($dir, 0.25, $th, $grid-color), line($dir, 0.75, $th, $grid-color), line($dir, 1, $th * 2, $grid-color)
 
-.bg-dark
-  background-color: $node_color !important
+//.bg-dark
+//  background-color: $node_color !important
 
 .custom-node-editor
   .background
