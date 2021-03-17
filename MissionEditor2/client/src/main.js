@@ -43,7 +43,6 @@ Prototype.addNodes(app.editor, app.components).then(() => {
 
     $.fn.autoshrink = function() {
         return this.each(function() {
-            console.log(this)
             var shrinker, $this = $(this);
             $this.data("autoshrinker", shrinker = new AutoShrinker($this));
             shrinker.resize();

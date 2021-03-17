@@ -16,8 +16,8 @@ export default class SpawnEnemyGroup extends NamedComponent {
 
     builder(node) {
         super.builder(node);
-        let preferred = new Rete.Input('group', 'Preferred', sockets.enemyGroup)
-        let enemySpawns = new Rete.Output('enemies', 'Elements', sockets.enemy);
+        let preferred = new Rete.Input('preferred', 'Preferred', sockets.enemyGroup)
+        let enemySpawns = new Rete.Output('elements', 'Elements', sockets.enemy);
 
         let amount = new NumberControl("amount", this.editor, "Amount", 0);
         let interval = new NumberControl("interval", this.editor, "Interval", 0);

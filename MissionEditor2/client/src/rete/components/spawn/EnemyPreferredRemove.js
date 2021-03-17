@@ -6,6 +6,7 @@ import TextControl from "@/rete/controls/TextControl";
 import NumberControl from "@/rete/controls/NumberControl";
 import BooleanControl from "@/rete/controls/BooleanControl";
 import ListControl from "@/rete/controls/ListControl";
+import PreviousElementsInput from "@/rete/io/inputs/PreviousElementsInput";
 
 export default class EnemyPreferredRemove extends NamedComponent {
 
@@ -16,12 +17,15 @@ export default class EnemyPreferredRemove extends NamedComponent {
 
     builder(node) {
         super.builder(node);
-        let preferred = new Rete.Output('elements', 'Remove', sockets.preferredRemove)
+        let previousElementsInput = new PreviousElementsInput();
+        let preferred = new Rete.Output('elements', 'Remove', sockets.preferredRemove);
 
         node.icon = 'police-station';
 
         node
-            .addOutput(preferred);
+            .addInput(previousElementsInput)
+            .addOutput(preferred)
+        ;
     }
 
     worker(nodeData, inputs, outputs) {

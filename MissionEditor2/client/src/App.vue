@@ -11,51 +11,25 @@ import ConnectionPlugin from "rete-connection-plugin";
 import VueRenderPlugin from "rete-vue-render-plugin";
 import ModulePlugin from "rete-module-plugin";
 import ContextMenuPlugin from "rete-context-menu-plugin";
-import AutoArrangePlugin from 'rete-auto-arrange-plugin';
-import NumComponent from "@/rete/components/constants/NumComponent";
+import AutoArrangePlugin from '../lib/auto-arrange-plugin-devel/src/index';
 import CustomNode from "@/rete/renderer/CustomNode";
-import StartupComponent from "@/rete/components/control/StartupComponent";
-import ScriptComponent from "@/rete/components/control/ScriptComponent";
 import AreaPlugin from 'rete-area-plugin';
-import AssetComponent from "@/rete/components/constants/AssetComponent";
-import ToggleComponent from "@/rete/components/control/ToggleComponent";
-import UnitRefComponent from "@/rete/components/constants/UnitRefComponent";
-import TimerComponent from "@/rete/components/timer/TimerComponent";
-import TimerTriggerComponent from "@/rete/components/timer/TimerTriggerComponent";
-import TimerSetComponent from "@/rete/components/timer/TimerSetComponent";
-import {ModuleComponent} from "@/rete/components/modules/ModuleComponent";
 import GroupList from "@/components/GroupList";
-import InputComponent from "@/rete/components/modules/InputComponent";
-import sockets from "@/rete/sockets";
-import OutputComponent from "@/rete/components/modules/OutputComponent";
-import SpawnPlayer from "@/rete/components/spawn/SpawnPlayer";
-import SpawnEnemy from "@/rete/components/spawn/SpawnEnemy";
-import SpawnEnemyGroup from "@/rete/components/spawn/SpawnEnemyGroup";
-import DifficultyComponent from "@/rete/components/control/DifficultyComponent";
-import WhisperState from "@/rete/components/control/WhisperState";
-import AreaTrigger from "@/rete/components/trigger/AreaTrigger";
-import PlaySound from "@/rete/components/PlaySound";
-import SpecialObjective from "@/rete/components/unit/SpecialObjective";
-import UnitSequence from "@/rete/components/unit/UnitSequence";
-import MoveUnit from "@/rete/components/unit/MoveUnit";
 import Header from "@/components/Header";
-import EnemyPreferredAdd from "@/rete/components/spawn/EnemyPreferredAdd";
-import EnemyPreferredRemove from "@/rete/components/spawn/EnemyPreferredRemove";
-import Operator from "@/rete/components/control/Operator";
-import AIGraph from "@/rete/components/control/AIGraph";
-import EnableUnit from "@/rete/components/unit/EnableUnit";
-import DisableUnit from "@/rete/components/unit/DisableUnit";
+import components from "./Components"
+import CommunicationMixin from "@/CommunicationMixin";
+
 require("jquery");
 
 export default {
   name: 'App',
   components: {Header, GroupList},
+  mixins: [CommunicationMixin],
   data() {
     return {
       editor: {},
       modules: {},
       components: {},
-      loadedConnections: []
     }
   },
   methods: {
@@ -63,57 +37,9 @@ export default {
       this.editor.view.resize();
       AreaPlugin.zoomAt(this.editor);
     },
-    async createNode(element, position) {
-      if (!this.components[element.class]) {
-        console.error("no component was found for " + element.class)
-        return;
-      }
-      if (element.values.on_executed) {
-        element.values.on_executed.forEach(item => {
-          this.loadedConnections.push({from: element.id, to: item.id, type: 'element'});
-        })
-      }
-      if (element.values.elements) {
-        element.values.elements.forEach(item => {
-          this.loadedConnections.push({from: element.id, to: item, type: 'group'});
-        })
-      }
-
-      var initialValues = element.values;
-      initialValues.id = element.id;
-
-      var node = await this.components[element.class].createNode(initialValues);
-      node.position = [position.x * 10, position.z * 10];
-
-      this.editor.addNode(node);
-      this.resize();
-      this.attemptConnections();
-    },
-    async updateNode(id, name, value) {
-      var node = this.findNode(id);
-      if (!node) {
-        console.error("no node was found for id " + id)
-      }
-      node.data[name] = value;
-    },
-    attemptConnections() {
-      this.loadedConnections.forEach((item, index) => {
-        let from = this.findNode(item.from);
-        let to = this.findNode(item.to);
-
-        if (from && to) {
-          if (item.type === 'element') {
-            this.editor.connect(from.outputs.get('next_elements'), to.inputs.get('previous_elements'));
-          } else {
-            this.editor.connect(from.outputs.get(item.type), to.inputs.get(item.type));
-          }
-          this.loadedConnections.splice(index, 1);
-        }
-      });
-    },
     findNode(id) {
       return this.editor.nodes.find(n => n.data.id === id);
-    }
+    },
   },
   async mounted() {
     window.app = this;
@@ -123,42 +49,7 @@ export default {
     this.editor = new Rete.NodeEditor('demo@0.1.0', container);
     let editor = this.editor;
 
-    let components = {
-      constant: new NumComponent(),
-      startup: new StartupComponent(),
-      MissionScriptElement: new ScriptComponent(),
-      asset: new AssetComponent(),
-      toggle: new ToggleComponent(),
-      unitRef: new UnitRefComponent(),
-      timer: new TimerComponent(),
-      timerTrigger: new TimerTriggerComponent(),
-      timerSet: new TimerSetComponent(),
-      module: new ModuleComponent(),
-      inputElement: new InputComponent('Input element', 'Previous elements', sockets.element),
-      inputNumber: new InputComponent('Input number', 'Number', sockets.number),
-      inputUnitRef: new InputComponent('Input unit ref', 'Unit ref', sockets.unit),
-      outputElement: new OutputComponent('Output element', 'Next elements', sockets.element),
-      outputNumber: new OutputComponent('Output number', 'Number', sockets.number),
-      outputUnitRef: new OutputComponent('Output unit ref', 'Unit ref', sockets.unit),
-      ElementPlayerSpawner: new SpawnPlayer(),
-      ElementSpawnEnemyDummy: new SpawnEnemy(),
-      ElementSpawnEnemyGroup: new SpawnEnemyGroup(),
-      ElementDifficulty: new DifficultyComponent(),
-      ElementWhisperState: new WhisperState(),
-      ElementAreaTrigger: new AreaTrigger(),
-      ElementPlaySound: new PlaySound(),
-      ElementSpecialObjective: new SpecialObjective(),
-      ElementUnitSequence: new UnitSequence(),
-      ElementMoveUnit: new MoveUnit(),
-      ElementEnemyPreferedAdd: new EnemyPreferredAdd(),
-      ElementEnemyPreferedRemove: new EnemyPreferredRemove(),
-      ElementOperator: new Operator(),
-      ElementAIGraph: new AIGraph(),
-      ElementEnableUnit: new EnableUnit(),
-      ElementDisableUnit: new DisableUnit()
-    };
     this.components = components;
-
 
     const background = document.createElement('div');
     background.classList = 'background';
@@ -220,12 +111,12 @@ export default {
     });
     editor.use(AreaPlugin, {background});
     editor.use(ContextMenuPlugin, {
-      delay: 10,
+      delay: 100,
       allocate(component) {
         return component.path || ['Other'];
       }
     });
-    editor.use(AutoArrangePlugin, {margin: {x: 50, y: 50}, depth: 0});
+    editor.use(AutoArrangePlugin, {margin: {x: 200, y: 200}, depth: 0});
 
     for (var k in components) {
       var v = components[k];
@@ -274,7 +165,7 @@ $th: 0.008
 
 .bg-dark
   background-color: $node_color !important
-  
+
 .custom-node-editor
   .background
     z-index: -5

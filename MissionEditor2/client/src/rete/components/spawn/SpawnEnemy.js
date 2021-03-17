@@ -16,7 +16,7 @@ export default class SpawnEnemy extends NamedComponent{
 
     builder(node) {
         super.builder(node);
-        let enemySpawnGroup = new Rete.Input('group', 'Spawn group', sockets.enemy);
+        let enemySpawnGroup = new Rete.Input('elements', 'Spawn group', sockets.enemy);
         let previousElementsInput = new PreviousElementsInput();
 
         let accessibility = new TextControl('accessibility', this.editor, "Accessibility", "any");

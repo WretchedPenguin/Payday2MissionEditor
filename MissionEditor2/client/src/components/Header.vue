@@ -18,8 +18,14 @@ export default {
             {title: "Save", onClick: this.save},
             {title: "Save as...", onClick: this.save},
             {title: "Import from BeardLib", onClick: this.importBeardLib},
-          ]
-        }
+          ],
+        },
+        {
+          title: "Element",
+          items: [
+            {title: "Auto align", onClick: this.autoAlign},
+          ],
+        },
       ]
     }
   },
@@ -29,8 +35,15 @@ export default {
       console.log('saving')
     },
     importBeardLib() {
-      console.log('import');
+      this.clear();
       DotNet.invokeMethodAsync('MissionEditor2', 'ImportFromBeardLib');
+    },
+    clear(){
+      app.editor.fromJSON({id: 'demo@0.1.0', nodes: {}});
+    },
+    autoAlign(){
+      app.editor.trigger('arrangeall');
+      app.resize();
     }
   },
 
