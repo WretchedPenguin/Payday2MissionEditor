@@ -12,7 +12,6 @@ export default {
 </script>
 
 <style lang="sass" scoped>
-@import "../vars"
 
 .socket
   flex-shrink: 0

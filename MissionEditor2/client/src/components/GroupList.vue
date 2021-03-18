@@ -89,7 +89,6 @@ export default {
 
 
 <style lang="sass" scoped>
-@import '../rete/vars.sass'
 
 .view
   display: flex

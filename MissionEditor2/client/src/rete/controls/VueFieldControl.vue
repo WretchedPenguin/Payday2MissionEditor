@@ -1,5 +1,5 @@
 ﻿<template lang="pug">
-  .field-control
+  .d-flex
     label( v-if="name" class="label-text col-form-label" v-html="name")
     .input-group.input-group-xs.ml-auto(:class="inputLength ? 'col-' + inputLength : (name ? 'col-6' : 'col-12')")
       label.switch.m-auto( v-if="type === 'checkbox'")
@@ -20,7 +20,7 @@
         @pointermove.stop=""
         step="0.1")
       .input-group-append( v-if="append")
-        .input-group-text(v-html="append")
+        .input-group-text.border-0(v-html="append")
 </template>
 
 <script>
@@ -63,50 +63,33 @@ export default {
 }
 </script>
 
-<style lang="sass">
-@import ../vars
+<style lang="sass" scoped>
 
 $switch-size: 0.5
 
-.field-control
-  display: flex
-
-  .form-control,
-  .input-group-addon,
-  .input-group-btn > .btn,
-  .label-text,
-  .input-group-prepend > .input-group-text,
-  .input-group-append > .input-group-text
-    color: $text-color
-    height: 22px
-    padding: 1px 5px
-    font-size: $text-size
-    line-height: 1.5
-
-    ::placeholder
-      color: $placeholder-color
+.form-control,
+.input-group-addon,
+.input-group-btn > .btn,
+.label-text,
+.input-group-prepend > .input-group-text,
+.input-group-append > .input-group-text
+  padding: 1px 5px
 
 .node-input,
 .input-group-text
-  color: $text-color
-  height: 22px
   padding: 1px 5px
-  font-size: $text-size
-  line-height: 1.5
-  background-color: $input-background-color
-  border: none
   
-  &:focus
-    background-color: $input-background-color
-
-  &::placeholder
-    color: $placeholder-color
-
-  &:read-only
-    background-color: #595959
-
-    & + .input-group-append > .input-group-text
-      background-color: #595959
+  //&:focus
+  //  background-color: $input-background-color
+  //
+  //&::placeholder
+  //  color: $placeholder-color
+  //
+  //&:read-only
+  //  background-color: #595959
+  //
+  //  & + .input-group-append > .input-group-text
+  //    background-color: #595959
 
 .switch
   position: relative

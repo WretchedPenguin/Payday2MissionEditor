@@ -49,10 +49,9 @@ export default {
 
 </script>
 
-<style lang="sass">
-@import "../vars"
+<style lang="sass" scoped>
+
 .node
-  background: $node-color
   border-radius: 10px
   cursor: pointer
   min-width: $node-width
@@ -61,10 +60,11 @@ export default {
   box-sizing: content-box
   position: relative
   user-select: none
+  background-color: $node-color
 
   &:hover,
   &.selected
-    background: lighten($node-color, 4%)
+    background: $node-color-selected
 
   .title-container
     border-top-left-radius: 10px

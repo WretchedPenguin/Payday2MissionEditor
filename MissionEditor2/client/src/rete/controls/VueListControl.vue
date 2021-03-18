@@ -78,8 +78,7 @@ export default {
 }
 </script>
 
-<style lang="sass">
-@import '../vars'
+<style lang="sass" scoped>
 
 .list-control
 

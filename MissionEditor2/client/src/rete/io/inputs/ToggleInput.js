@@ -32,9 +32,9 @@ export default class ToggleInput extends GroupInput {
             this.control.setChildReadonly(1, false);
         }
         if (nodeData.data.enabled) {
-            //node.vueContext.$el.firstChild.classList.remove("disabled");
+            node.vueContext.$el.firstChild.classList.remove("disabled");
         } else {
-            //node.vueContext.$el.firstChild.classList.add("disabled");
+            node.vueContext.$el.firstChild.classList.add("disabled");
         }
     }
 }

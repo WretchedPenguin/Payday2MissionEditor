@@ -1,5 +1,5 @@
 ﻿<template lang="pug">
-  .header.bg-dark.list-group.list-group-horizontal
+  .header.bg-dark.list-group.list-group-horizontal.rounded-0
     DropdownButton(v-for="item in items" :title="item.title" :items="item.items" :key="title")
 </template>
 
@@ -56,8 +56,4 @@ export default {
 </script>
 
 <style lang="sass" scoped>
-
-.header
-  z-index: 100
-
 </style>

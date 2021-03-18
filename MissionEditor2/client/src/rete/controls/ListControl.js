@@ -12,14 +12,14 @@ export default class ListControl extends Rete.Control {
     }
 
     setValue(val) {
-        //this.vueContext.value = val;
+        this.vueContext.value = val;
     }
 
     setChildReadonly(index, readonly) {
-        //this.vueContext.$children[index].read_only = readonly;
+        this.vueContext.$children[index].read_only = readonly;
     }
 
     setChildValue(index, value) {
-        //this.vueContext.$children[index].value = value;
+        this.vueContext.$children[index].value = value;
     }
 }

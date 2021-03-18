@@ -144,8 +144,6 @@ export default {
 </script>
 
 <style lang="sass">
-@import './rete/vars'
-
 $grid-size: 50px
 $grid-color: #363636
 $dark-color: darken($grid-color, 10%)
@@ -162,9 +160,6 @@ $th: 0.008
 
 @function lines($dir)
   @return line($dir, 0.5, $th * 2, $grid-color), line($dir, 0.25, $th, $grid-color), line($dir, 0.75, $th, $grid-color), line($dir, 1, $th * 2, $grid-color)
-
-//.bg-dark
-//  background-color: $node_color !important
 
 .custom-node-editor
   .background

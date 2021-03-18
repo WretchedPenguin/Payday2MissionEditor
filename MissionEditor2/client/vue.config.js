@@ -3,5 +3,12 @@
     outputDir: "../wwwroot/app",
     pages: {
         index: "src/main.js"
-    }
+    },
+    css: {
+        loaderOptions: {
+            sass: {
+                data: `@import "@/sass/_main.sass";`,
+            },
+        },
+    },
 };
