@@ -2,7 +2,8 @@
   .table.list-control
     .header
       .tcol(v-for="(type) in types" v-html="type.name")
-      .tcol
+      .tcol.icon-container
+        .m-auto.icon
     .trow(v-for="(field, fieldIndex) in fields" :key="field.key")
       .tcol(v-for="(type, index) in types")
         input.form-control.node-input.text-center.list-input(
@@ -99,7 +100,6 @@ export default {
       display: table-cell
       width: 0px
       padding-left: 3px
-      padding-bottom: 3px
 
       .list-input
         color: $text-color
@@ -118,6 +118,7 @@ export default {
         .icon
           width: 15px
           padding-bottom: 3px
+          vertical-align: initial
 
 
   .col-12

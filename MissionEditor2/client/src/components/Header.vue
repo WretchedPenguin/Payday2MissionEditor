@@ -1,36 +1,55 @@
 ﻿<template lang="pug">
-  .header.bg-dark.list-group.list-group-horizontal.rounded-0
-    DropdownButton(v-for="item in items" :title="item.title" :items="item.items" :key="title")
+  div
+    .header.bg-dark.list-group.list-group-horizontal.rounded-0
+      DropdownButton(v-for="item in items" :title="item.title" :items="item.items" :key="title")
+    Modal(:id="fileNewId" :primary="{theme: 'danger', text: 'Discard', click: this.new}" title="Discard changes?")
+      p Starting a new document will discard all unsaved changes.
+      p Would you like to continue?
+    Modal(:id="fileImportId" :primary="{theme: 'danger', text: 'Import', click: this.importBeardLib}" title="Start import?")
+      p Starting import from BeardLib will clear all elements and import them from Payday 2 (if you have the mod installed).
+      p Would you like to continue?
+    Modal(:id="elementAlignId" :primary="{theme: 'danger', text: 'Align', click: this.autoAlign}" title="Start align?")
+      p This option will automatically align ALL elements and it's not always perfect. Mostly recommended when importing an existing mission.
+      p If you manually aligned the elements and want to test this function, be sure to save first!
+      p Would you like to continue?
 </template>
 
 <script>
 import DropdownButton from "@/components/DropdownButton";
+import Modal from "@/components/Modal";
 
 export default {
   name: "Header",
-  components: {DropdownButton},
+  components: {Modal, DropdownButton},
   data() {
     return {
+      fileNewId: 'fileNew',
+      fileImportId: 'fileImport',
+      elementAlignId: 'elementAlign',
       items: [
         {
           title: "File",
           items: [
-            {title: "New", onClick: this.clear},
-            {title: "Save", onClick: this.new},
+            {title: "New", onClick: this.openModal.bind(this, () => this.fileNewId)},
+            {title: "Save", onClick: this.save},
             {title: "Save as...", onClick: this.save},
-            {title: "Import from BeardLib", onClick: this.importBeardLib},
+            {title: "Import from BeardLib", onClick: this.openModal.bind(this, () => this.fileImportId)},
           ],
         },
         {
           title: "Elements",
           items: [
-            {title: "Auto align", onClick: this.autoAlign},
+            {title: "Auto align", onClick: this.openModal.bind(this, () => this.elementAlignId)},
           ],
         },
       ]
     }
   },
   methods: {
+    openModal(idFunc){
+      $('#' + idFunc()).modal()
+    },
+    
     new(){
       this.clear();
     },
