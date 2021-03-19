@@ -12,7 +12,7 @@ import VueRenderPlugin from "rete-vue-render-plugin";
 import ModulePlugin from "rete-module-plugin";
 import ContextMenuPlugin from "rete-context-menu-plugin";
 import AutoArrangePlugin from '../lib/auto-arrange-plugin-devel/src/index';
-import CustomNode from "@/rete/renderer/CustomNode";
+import CustomNode from "@/rete/renderer/Node";
 import AreaPlugin from 'rete-area-plugin';
 import GroupList from "@/components/GroupList";
 import Header from "@/components/Header";
@@ -144,68 +144,11 @@ export default {
 </script>
 
 <style lang="sass">
-$grid-size: 50px
-$grid-color: #363636
-$dark-color: darken($grid-color, 10%)
-$th: 0.008
 
 #rete-container
   height: 100%
   width: 100%
 
-@function line($dir, $t, $w, $color)
-  $start: $grid-size * $t - $w * $grid-size
-  $end: $grid-size * $t + $w * $grid-size
-  @return linear-gradient(to $dir, transparent $start, $color $start, $color $end, transparent $end)
 
-@function lines($dir)
-  @return line($dir, 0.5, $th * 2, $grid-color), line($dir, 0.25, $th, $grid-color), line($dir, 0.75, $th, $grid-color), line($dir, 1, $th * 2, $grid-color)
-
-.custom-node-editor
-  .background
-    z-index: -5
-    background-size: $grid-size $grid-size
-    background-image: line(right, 0.5, $th * 3, $dark-color), line(bottom, 0.5, $th * 3, $dark-color), lines(right), lines(bottom)
-    background-color: darken($grid-color, 6%)
-
-  *
-    box-sizing: border-box
-
-  .connection
-    path
-      fill: none
-      stroke: $socket-color
-      stroke-width: 2px
-      pointer-events: none
-
-      &.active
-        stroke: #aaa
-
-    &.socket-input-element
-      path
-        stroke: $socket-color
-
-    &.socket-output-number,
-    &.socket-output-unit
-      path
-        stroke: $socket-color-number
-
-    &.socket-input-toggle
-      path
-        stroke: $socket-color-toggle
-
-    &.socket-input-time
-      path
-        stroke: $socket-color-time
-
-  .Unit path,
-  .Number path
-    stroke: $socket-color-number
-
-  .Toggle path
-    stroke: $socket-color-toggle
-
-  .Time path
-    stroke: $socket-color-time
 </style>
 
