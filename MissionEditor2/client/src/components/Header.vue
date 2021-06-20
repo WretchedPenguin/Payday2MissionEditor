@@ -2,6 +2,15 @@
   div
     .header.bg-dark.list-group.list-group-horizontal.rounded-0
       DropdownButton(v-for="item in items" :title="item.title" :items="item.items" :key="title")
+      VueFieldControl(
+        type="checkbox" 
+        :initial="renderConnections" 
+        :change="toggleRenderConnections" 
+        name="Render connections" 
+        :emitter="emitter" 
+        :getData="(k) =>{return renderConnections}" 
+        :putData="(k,v) =>{}"
+        ikey="something")
     Modal(:id="fileNewId" :primary="{theme: 'danger', text: 'Discard', click: this.new}" title="Discard changes?")
       p Starting a new document will discard all unsaved changes.
       p Would you like to continue?
@@ -9,7 +18,8 @@
       p Starting import from BeardLib will clear all elements and import them from Payday 2 (if you have the mod installed).
       p Would you like to continue?
     Modal(:id="elementAlignId" :primary="{theme: 'danger', text: 'Align', click: this.autoAlign}" title="Start align?")
-      p This option will automatically align ALL elements and it's not always perfect. Mostly recommended when importing an existing mission.
+      p This option will automatically align ALL elements and it's not always perfect but can help with performance. 
+      p Mostly recommended when importing an existing mission.
       p If you manually aligned the elements and want to test this function, be sure to save first!
       p Would you like to continue?
 </template>
@@ -17,12 +27,14 @@
 <script>
 import DropdownButton from "@/components/DropdownButton";
 import Modal from "@/components/Modal";
+import VueFieldControl from "@/rete/controls/VueFieldControl";
 
 export default {
   name: "Header",
-  components: {Modal, DropdownButton},
+  components: {VueFieldControl, Modal, DropdownButton},
   data() {
     return {
+      renderConnections: true,
       fileNewId: 'fileNew',
       fileImportId: 'fileImport',
       elementAlignId: 'elementAlign',
@@ -67,9 +79,12 @@ export default {
     autoAlign(){
       app.editor.trigger('arrangeall');
       app.resize();
+    },
+    toggleRenderConnections(){
+      this.renderConnections = !this.renderConnections;
+      $('div > svg').parent().css('display', this.renderConnections ? 'inline' : 'none')
     }
-  },
-
+  }
 
 }
 </script>

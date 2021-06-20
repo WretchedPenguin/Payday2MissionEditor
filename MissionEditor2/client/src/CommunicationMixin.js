@@ -10,6 +10,18 @@
                 console.error("no component was found for " + element.class)
                 return;
             }
+            // this.loadConnections(element);
+            var initialValues = element.values;
+            initialValues.id = element.id;
+
+            var node = await this.components[element.class].createNode(initialValues);
+            node.position = [position.x * 10, position.z * 10];
+
+            this.editor.addNode(node);
+            this.resize();
+            this.attemptConnections();
+        },
+        loadConnections(element){
             if (element.values.on_executed) {
                 element.values.on_executed.forEach(item => {
                     this.loadedConnections.push({from: element.id, to: item.id, type: 'element'});
@@ -20,18 +32,7 @@
                     this.loadedConnections.push({from: element.id, to: item, type: 'elements'});
                 })
             }
-
-            var initialValues = element.values;
-            initialValues.id = element.id;
-
-            var node = await this.components[element.class].createNode(initialValues);
-            node.position = [position.x * 10, position.z * 10];
-
-            this.editor.addNode(node);
-            this.resize();
-            this.attemptConnections();
-        }
-        ,
+        },
         async updateNode(id, name, value) {
             var node = this.findNode(id);
             if (!node) {

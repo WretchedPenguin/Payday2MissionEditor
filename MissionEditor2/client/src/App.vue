@@ -18,6 +18,7 @@ import GroupList from "@/components/GroupList";
 import Header from "@/components/Header";
 import components from "./Components"
 import CommunicationMixin from "@/CommunicationMixin";
+import ProfilerPlugin from 'rete-profiler-plugin';
 
 require("jquery");
 
@@ -53,6 +54,9 @@ export default {
 
     const background = document.createElement('div');
     background.classList = 'background';
+    
+    const canvas = document.createElement("canvas");
+    background.append(canvas);
 
     var engine = new Rete.Engine('demo@0.1.0');
 
@@ -105,6 +109,7 @@ export default {
       engine,
       modules: this.modules
     });
+
     editor.use(ConnectionPlugin);
     editor.use(VueRenderPlugin, {
       component: CustomNode
@@ -117,12 +122,13 @@ export default {
       }
     });
     editor.use(AutoArrangePlugin, {margin: {x: 200, y: 200}, depth: 0});
-
+    
     for (var k in components) {
       var v = components[k];
       editor.register(v);
       engine.register(v);
     }
+
 
     editor.on("process nodecreated noderemoved connectioncreated connectionremoved", async () => {
       await engine.abort();
@@ -136,9 +142,16 @@ export default {
       el.addClass(io.socket.name);
       lastClass = io.socket.name;
     });
+    
+    editor.on("renderconnection", connection =>{
+      console.log('drawing')
+    });
 
     this.resize();
     editor.trigger('process');
+  },
+  beforeDestroy() {
+    this.editor.trigger("destroy")
   }
 }
 </script>
@@ -149,6 +162,9 @@ export default {
   height: 100%
   width: 100%
 
+canvas
+  width: 100%
+  height: 100%
 
 </style>
 

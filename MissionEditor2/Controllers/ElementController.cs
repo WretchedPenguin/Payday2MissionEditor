@@ -1,4 +1,5 @@
-﻿using System.Linq;
+﻿using System.Collections.Generic;
+using System.Linq;
 using System.Numerics;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
@@ -8,7 +9,7 @@ using MissionEditor2.Services;
 using Newtonsoft.Json;
 
 namespace MissionEditor2.Controllers
-{ 
+{
     [Route("element")]
     public class ElementController : Controller
     {
@@ -20,6 +21,7 @@ namespace MissionEditor2.Controllers
             this.logger = logger;
             this.elementService = elementService;
         }
+
         [Route("update")]
         public async Task<IActionResult> Update(ElementUpdate elementUpdate)
         {
@@ -31,6 +33,16 @@ namespace MissionEditor2.Controllers
         public async Task<IActionResult> Create(string element)
         {
             await elementService.CreateElement(JsonConvert.DeserializeObject<Element>(element));
+            return Ok();
+        }
+
+        [Route("create/list")]
+        public async Task<IActionResult> CreateList(string elements)
+        {
+            var list = JsonConvert.DeserializeObject<List<Element>>(elements);
+            string ids = "";
+            IEnumerable<Task> tasks = list.Select(elementService.CreateElement);
+            await Task.WhenAll(tasks);
             return Ok();
         }
     }

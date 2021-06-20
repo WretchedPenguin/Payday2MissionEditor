@@ -50,7 +50,8 @@ export default {
         if (this.change)
           this.change(this.value);
       }
-      this.emitter.trigger('process');
+      if(this.emitter)
+        this.emitter.trigger('process');
     }
   },
   mounted() {

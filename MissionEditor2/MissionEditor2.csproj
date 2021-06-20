@@ -23,6 +23,9 @@
     <_ContentIncludedByDefault Remove="client\src\data\prototype.json" />
     <_ContentIncludedByDefault Remove="client\dist_electron\bundled\package.json" />
     <_ContentIncludedByDefault Remove="client\dist_electron\package.json" />
+    <_ContentIncludedByDefault Remove="client\lib\rete\package-lock.json" />
+    <_ContentIncludedByDefault Remove="client\lib\rete\package.json" />
+    <_ContentIncludedByDefault Remove="client\lib\rete\tsconfig.json" />
   </ItemGroup>
   <ItemGroup>
     <Content Update="electron.manifest.json">
